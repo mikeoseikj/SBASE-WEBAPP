@@ -1,0 +1,154 @@
++#############################################################+
+|Author: Osei Michael Junior                                  |
+|Email: mikeoseikj@outlook.com / +233556107692                |
+|Nationality: Ghana                                           |
+|Occupation: none (Student ==> KNUST(year 1))                 |
+|Project name: SBASE                                          |
+|Date: January 2020                                           |
+|Motives: Educational ,experimental and learning purposes     |
++#############################################################+
+
+[THIS SOFTWARE IS A WEB BASED STUDENT RESULTS MANAGEMENT SYSTEM THAT COMES WITH WEB LOGIN SESSIONS FOR THE ADMINISTRATOR ,STUDENTS AND TUTORS. STUDENT CAN ALSO USE THE ADDED ANDROID APP TO CHECK THEIR RESULTS] 
+
+NOTE: Software is for educational purposes but it can be used for real scenarios. 
+No 'third party' dependencies! Built to be compatible on systems with low specs.
+
+ I am neither a mobile application developer nor web developer so portions of my code and methods might look unprofessional or inefficient. I am open for constructive criticisms and advice. Free to use the project (for non commercial purposes only). Do well to acknowledge author when using software.
+
+
+
+Requirements: php webserver and mysql server 
+
+---[Setting up software]---
+Get php and mysql server and run app with them. Thats all
+Default sql server username ==> root ;password ==> ""; (go to the 'create_tables.php', admin and user 'sec' files,'connection.php' files in both the webapp and android login folder to change this for security reasons')
+
+
+Admin username => admin (not case sensitive)
+First time Admin password ==> 31337 (change this password in the 'login.php' for security reasons)
+Admin permanent password must be between 16 to 32 characters
+
+After setting permanent password you would be logged out and you have to log in with your new password to access account
+
+After logging in as admin you can start configurations (easy)
+User account permanent passwords must be 8 to 25 characters
+
+Change ip address(192.168.43.127) in the SBASE android app to the ip address of your choice
+
+
+
+
+------ABOUT SBASE-------
+It is a student examination results management system built hopefully to make the lives of school IT administrators work easier (no technical skills is required to use software).
+Built specifically for Ghana's SHS's (High schools) double and non-double track system.It will work for other educational levels and structures in Ghana and in other countries.
+
+
+
+-----STRUCTURE-----
+Made up of about 15 database tables (check 'create_tables.php' in the login folder)
+the backend file a the ones with extended filenames  
+eg. frontend =>sec.php
+    backend =>secreg.php sometimes might be (sec_reg.php)
+
+----Below is a graphical structural representation of the database----
+
+forms --> track --> department --> class
+               _________
+               | FORM 1|   ==> FORM 2 ==> FORM 3 ==> FORM4                                                     
+               |_______| 
+eg.          ______|_____
+        _____|____   ___|_____
+        |GREEN   |   |GOLD    | 
+        |________|   |________|  
+           |             |
+           |_____________| 
+        _____|____   ___|_____
+        |SCIENCE |   |ARTS    | 
+        |________|   |________|  
+           |             |  
+           |_____________| 
+        _____|____   ___|_____
+        |A       |   |    B   |
+        |________|   |________|  
+
+
+------CONFIGURATION PANEL--------
+
+First time login for admin:
+Administrator: username: [admin]
+               passowrd: [31337]  go to the login.php file and change this password for security reasons
+
+-The credentials above is for first time logins. After login with these, the administrator is forced to set a 16-32 character password
+This also applies for the tutor and student sections (8-25 characters).
+
+Admin adds users and a pseudo random permanent and unique username and a random first time login password is generated. 
+Username length is 14 for teachers and 12 for students.
+
+--------USERS------
+Admin is the one supposed to add students and tutors and after that, the  distribution of credentials
+Note: Both tutors and students are classified as "users"
+
+------ADMIN FUNCTIONS----
+-addition of configuration info via the side slide dialog in the configuration panel(forms, tracks,exam etc)
+-configuration info deletion
+-addition of user(s)
+-deletion of user(s)
+-updating of user(s) data
+-activation and deactivation of accounts (CRED button)
+-activation and deactivation of specific users allowed  (update button)
+-distribution of credentials (CRED button)
+-numerical view of database structure (click STATISTICS button)
+
+----TUTOR (USER) FUNCTIONS----
+-input marks for students
+-view position of students based on subject the tutor has access to
+
+----STUDENT (USER) FUNCTIONS------
+-view latest and old results (like a transcript)
+-graphical view of transcript
+
+---GENERAL FUNCTIONS FOR ADMINISTRATOR AND USERS-----
+-password reset
+-password change/recover via hint
+
+Note: if password and hint is lost then your account cannot be recovered though Admin can use 'unconventional' methods to recover account
+
+
+
+-----INTERNAL WORKINGS--------
+-Some functions can be performed for a group of users at a time
+-Deleting a student or tutor will all info related to user.
+-Updating a tutor means increasing tutor access level (adding a new subject)
+-Updating  student(s) info delete(s) all previous subject(s) and set the newly added ones .Meaning you have to re-select old/current subject(s) when updating users or else you will lose all unselected subject info relating to user(s)
+-latest added exam becomes active. if deleted it will shift to the previous one (based on PRIMARY KEY(id))
+-admin has no functional influence over results and there is not functionality provided for admin to insert marks
+-computation of marks is automated.
+-deadlines for tutors to record marks has to be done phyiscally through the block of all tutor accounts. (single button provided)
+-students can  be block from viewing marks 
+-a single user account can be deactivated or activated
+-students are logged out of their accounts after 5 minutes
+-tutors are logged out of their accounts after 1 hour
+
+
+-----SECURITY--------
+Crytography: passwords in "slogin" tables (permanent passwords) are hashed with BLOWFISH which is relatively secured(60 character hashes), hints are also hashed. 
+Didn't do this for "login" tables because they are required for first time logins and for that matter, Admin has to distribute them.
+-put in effort to prevent vulnerabilities (sql/code injections etc)
+-randomness of usernames was designed to provide security in someway.ie. difficult to guess and confidentiality of username provides security
+-password bruteforce is partially impractical because there is a 3 seconds delay in the login section.
+
+Note: password can be bruteforced with large number of resources and time
+
+
+----NOTES----
+-author take no responsibility for failure of software
+-Parts of code might be crapy,clumsy or unprofessional and I'm ready for corrections and constructive critcisms
+
+
+---BUGS----
+-known minor and unharmful bug in the user password change section 
+-known minor bugs in custom dialogs (inaccurate lengths of buttons and boxes )
+
+
+
+copyright: 2020
