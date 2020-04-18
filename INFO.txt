@@ -1,6 +1,6 @@
 +#############################################################+
 |Author: Osei Michael Junior                                  |
-|Email: mikeoseikj@outlook.com / +233556107692                |
+|Email: mikeoseikj@outlook.com                                |
 |Nationality: Ghana                                           |
 |Occupation: none (Student ==> KNUST(year 1))                 |
 |Project name: SBASE                                          |
