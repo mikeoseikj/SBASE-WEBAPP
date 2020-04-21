@@ -30,7 +30,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		elseif(isset($_POST["SUBJECT"]))
 			{$input=$_POST["SUBJECT"]; $field="subject";}
 
-		$string = sanitize_sql_input($input,20,"/[^a-zA-Z1-9 ]/");
+		$string = sanitize_sql_input($input,20,"/[^a-zA-Z0-9 ]/");
 		
 
 
