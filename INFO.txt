@@ -13,7 +13,7 @@
 NOTE: Software is for educational purposes but it can be used for real scenarios. 
 No 'third party' dependencies! Built to be compatible on systems with low specs.
 
- I am neither a mobile application developer nor web developer so portions of my code and methods might look unprofessional or inefficient. I am open for constructive criticisms and advice. Free to use the project (for non commercial purposes only). Do well to acknowledge author when using software.
+ I am neither a mobile application developer nor web developer and this is my first try at webapps s portions of my code and methods might look unprofessional or inefficient. I am open for constructive criticisms and advice. Free to use the project (for non commercial purposes only).
 
 
 
@@ -134,8 +134,14 @@ Note: if password and hint is lost then your account cannot be recovered though 
 Crytography: passwords in "slogin" tables (permanent passwords) are hashed with BLOWFISH which is relatively secured(60 character hashes), hints are also hashed. 
 Didn't do this for "login" tables because they are required for first time logins and for that matter, Admin has to distribute them.
 -put in effort to prevent vulnerabilities (sql/code injections etc)
--randomness of usernames was designed to provide security in someway.ie. difficult to guess and confidentiality of username provides security
+-pseudo-randomness of usernames was designed to provide security in someway.ie. difficult to guess and confidentiality of username provides security
 -password bruteforce is partially impractical because there is a 3 seconds delay in the login section.
+
+PROBLEMS:
+password characters being restricted A-Za-z1-9. This might affect the password security of some users
+Length of admin password being limited to the range, 16-50 and users being limited to 8-25
+-- the above also applies to hints
+
 
 Note: password can be bruteforced with large number of resources and time
 
