@@ -10,7 +10,7 @@
 
 [THIS SOFTWARE IS A WEB BASED STUDENT RESULTS MANAGEMENT SYSTEM THAT COMES WITH WEB LOGIN SESSIONS FOR THE ADMINISTRATOR ,STUDENTS AND TUTORS. STUDENT CAN ALSO USE THE ADDED ANDROID APP TO CHECK THEIR RESULTS] 
 
-NOTE: Software is for educational purposes but it can be used for real scenarios. 
+NOTE: Software is for educational purposes and don't recommend it for real scenarios due to security problems. 
 No 'third party' dependencies! Built to be compatible on systems with low specs.
 
  I am neither a mobile application developer nor web developer and this is my first try at webapps s portions of my code and methods might look unprofessional or inefficient. I am open for constructive criticisms and advice. Free to use the project (for non commercial purposes only).
@@ -39,7 +39,7 @@ Change ip address(192.168.43.127) in the SBASE android app to the ip address of 
 
 
 ------ABOUT SBASE-------
-It is a student examination results management system built hopefully to make the lives of school IT administrators work easier (no technical skills is required to use software).
+It is a student examination results management system with easy to use admin control panel. No technical skills is required to use software.
 Built specifically for Ghana's SHS's (High schools) double and non-double track system.It will work for other educational levels and structures in Ghana and in other countries.
 
 
@@ -157,4 +157,3 @@ Note: password can be bruteforced with large number of resources and time
 
 
 
-copyright: 2020
