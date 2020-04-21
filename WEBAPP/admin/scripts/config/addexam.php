@@ -9,7 +9,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	if(isset($_POST["submit"]))
 	{
-		$exam=sanitize_sql_input($_POST["EXAM"],20,"/[^a-zA-Z1-9 ]/");
+		$exam=sanitize_sql_input($_POST["EXAM"],20,"/[^a-zA-Z0-9 ]/");
 	
 		if(empty($exam))
 		{
