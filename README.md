@@ -4,6 +4,5 @@ Regardless of it specifics, it can also work for various educational structures 
 
 Note: there is a folder named 'screenshot' in the webapp folder that contains images to give you a fair view of how the SBASE user interface looks like. 
 
--There is also a wierd mistake I made of not accepting the character zero(0) in the database of SBASE. So things like passwords and admin configuration settings and commands would be affected. Pardon me for that if you find that annoying. The android app is also affected. 
-
-Note: This does not significantly affect the overrall security of the application.
+-There is also character restrictions on passwords and also length. It only allow A-Za-z1-9 . This might affect the security of some user passwords. 
+Note: This does not significantly affect the overrall security of the application. Check INFO.txt for more information
