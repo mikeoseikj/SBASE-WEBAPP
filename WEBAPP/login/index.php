@@ -46,7 +46,7 @@ print("
 	{
 		width: 100%;
 		color: #000000;
-		width: 70%;
+		width: 90%;
 		padding: 10px;
 		margin:20px;
 		border: none;
@@ -79,7 +79,7 @@ print("
 		margin-left:30%;
 
 		background-color: #101010;
-		width: 40%;
+		width: 30%;
 		height: 349px;
 		color: #88ffff;
 		opacity: 1;
