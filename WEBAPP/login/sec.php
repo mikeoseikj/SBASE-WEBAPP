@@ -16,7 +16,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && isset($_SESSI
 		}
 		.finput
 		{
-			width: 100%;
 			color: #000000;
 			width: 90%;
 			padding: 10px;
