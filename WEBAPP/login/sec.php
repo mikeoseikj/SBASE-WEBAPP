@@ -18,7 +18,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && isset($_SESSI
 		{
 			width: 100%;
 			color: #000000;
-			width: 70%;
+			width: 90%;
 			padding: 10px;
 			margin:20px;
 			border: none;
@@ -51,7 +51,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && isset($_SESSI
 			margin-left:30%;
 
 			background-color: #101010;
-			width: 40%;
+			width: 30%;
 			height: 540px;
 			color: #88ffff;
 			opacity: 1;
