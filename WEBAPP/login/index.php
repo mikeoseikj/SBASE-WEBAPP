@@ -44,7 +44,6 @@ print("
 	}
 	.finput
 	{
-		width: 100%;
 		color: #000000;
 		width: 90%;
 		padding: 10px;
