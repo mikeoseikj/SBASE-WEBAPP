@@ -21,7 +21,7 @@ Requirements: php webserver and mysql server
 
 ---[Setting up software]---
 Get php and mysql server and run app with them. Thats all
-Default sql server username ==> root ;password ==> ""; (go to the 'create_tables.php', admin and user 'sec' files,'connection.php' files in both the webapp and android login folder to change this for security reasons')
+Default sql server username ==> root ;password ==> ""; (go to the 'create_tables.php', admin and user 'sec' files, login.php and 'connection.php' files in both the webapp and android login folder to change this for security reasons') (i lost the release source code which contains all credentials in a config.php file. i will do it later when i get time since i wrote not for usage)
 
 
 Admin username => admin (not case sensitive)
