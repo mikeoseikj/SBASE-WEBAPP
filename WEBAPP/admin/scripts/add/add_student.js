@@ -26,9 +26,11 @@
 			var id = "p" + ++this.count;
 			var br = document.getElementById("here");
 			br.parentNode.insertBefore(this.make("br"), br);
-			br.parentNode.insertBefore(this.make("label", {htmlFor: id}, "name: "), br);
-			br.parentNode.insertBefore(this.make("input", {type: "text", name: id, id: id}), br);
+			br.parentNode.insertBefore(this.make("label", {htmlFor: id}, "FullName: "), br);
+			br.parentNode.insertBefore(this.make("input", {type: "text", name: "name_list[]", id: id}), br);
 			var btn = br.parentNode.insertBefore(this.make("input", {type: "button", value: "remove", _id: id}), br);
+			document.getElementById(id).pattern = '[a-zA-Z ]{1,}';
+
 			btn.onclick = this.remove;
 		},
 
@@ -64,6 +66,3 @@
 	students.init();
 })();
 
-$(document).ready(function () {
-	$("input").attr('maxlength', '30');    
-});

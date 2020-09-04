@@ -1,14 +1,11 @@
 <?php
 	function sql_connect()
 	{
-		$dbhost="localhost:3306";
-		$dbuser="root";
-		$dbpass="";
-		$dbname="SBASE";
+		$config = include(dirname(__DIR__).'/config.php');
+		$conn=mysqli_connect($config->dbhost, $config->dbuser, $config->dbpass,"SBASE");
 		
-		$conn=mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
 		if(! $conn)
-		exit;
+			exit;
 
 		return $conn;
 	}

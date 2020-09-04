@@ -10,28 +10,30 @@
 
 [THIS SOFTWARE IS A WEB BASED STUDENT RESULTS MANAGEMENT SYSTEM THAT COMES WITH WEB LOGIN SESSIONS FOR THE ADMINISTRATOR ,STUDENTS AND TUTORS. STUDENT CAN ALSO USE THE ADDED ANDROID APP TO CHECK THEIR RESULTS] 
 
-NOTE: Software is for educational purposes and don't recommend it for real scenarios due to security problems. 
+NOTE: Software is for educational purposes and so i don't recommend it for real life deployment without some modifications due to security problems. 
 No 'third party' dependencies! Built to be compatible on systems with low specs.
 
- I am neither a mobile application developer nor web developer and this is my first try at webapps s portions of my code and methods might look unprofessional or inefficient. I am open for constructive criticisms and advice. Free to use the project (for non commercial purposes only).
+ I am not that knowledgeable with mobile application and web application developement and this is also my first try in these areas so portions of my code and methods might look unprofessional or inefficient. I am open for constructive criticisms and advice. Free to use the project (for non commercial purposes only).
 
+Note: Both tutors and students are classified as users
+Check the SBASE-CLIENT repository for the student client app 
 
-
-Requirements: php webserver and mysql server 
+Requirements: php webserver and mysql server/mariaDB
 
 ---[Setting up software]---
-Get php and mysql server and run app with them. Thats all
-Default sql server username ==> root ;password ==> ""; (go to the 'create_tables.php', admin and user 'sec' files, login.php and 'connection.php' files in both the webapp and android login folder to change this for security reasons') (i lost the release source code which contains all credentials in a config.php file. i will do it later when i get time since i wrote not for usage)
+Get php and mysql server and run app with them. Thats all!
+Go to the config.php file to set database and 'default' user credentials
 
 
 Admin username => admin (not case sensitive)
 First time Admin password ==> 31337 (change this password in the 'login.php' for security reasons)
-Admin permanent password must be between 16 to 32 characters
+Admin permanent password must be 16 or more characters
 
-After setting permanent password you would be logged out and you have to log in with your new password to access account
+After setting permanent password you would be logged out and you have to log in with your new password to access your account
 
-After logging in as admin you can start configurations (easy)
-User account permanent passwords must be 8 to 25 characters
+After logging in as admin you can start configurations (easy). Set all config info in the webapp before usage(ie. forms, tracks, departments, classes, subjects and exams).
+
+User accounts(tutors and students) permanent passwords must be 8 or more characters
 
 Change ip address(192.168.43.127) in the SBASE android app to the ip address of your choice
 
@@ -46,7 +48,7 @@ Built specifically for Ghana's SHS's (High schools) double and non-double track 
 
 -----STRUCTURE-----
 Made up of about 15 database tables (check 'create_tables.php' in the login folder)
-the backend file a the ones with extended filenames  
+the backend file are the ones with 'long' filenames  
 eg. frontend =>sec.php
     backend =>secreg.php sometimes might be (sec_reg.php)
 
@@ -54,7 +56,7 @@ eg. frontend =>sec.php
 
 forms --> track --> department --> class
                _________
-               | FORM 1|   ==> FORM 2 ==> FORM 3 ==> FORM4                                                     
+               | FORM 1| ==> FORM 2 ==> FORM 3 ==> FORM 4                                                      
                |_______| 
 eg.          ______|_____
         _____|____   ___|_____
@@ -76,17 +78,17 @@ eg.          ______|_____
 
 First time login for admin:
 Administrator: username: [admin]
-               passowrd: [31337]  go to the login.php file and change this password for security reasons
+               passowrd: [31337]  go to the config.php file and change this password for security reasons
 
--The credentials above is for first time logins. After login with these, the administrator is forced to set a 16-32 character password
-This also applies for the tutor and student sections (8-25 characters).
+-The credentials above is for first time logins. After login with these, the administrator is forced to set a 16 or more character password
+This also applies for the tutor and student sections (8 or more characters).
 
-Admin adds users and a pseudo random permanent and unique username and a random first time login password is generated. 
+Admin adds users and a pseudo random and unique username and a random first time login password is generated. 
 Username length is 14 for teachers and 12 for students.
 
 --------USERS------
 Admin is the one supposed to add students and tutors and after that, the  distribution of credentials
-Note: Both tutors and students are classified as "users"
+
 
 ------ADMIN FUNCTIONS----
 -addition of configuration info via the side slide dialog in the configuration panel(forms, tracks,exam etc)
@@ -95,17 +97,17 @@ Note: Both tutors and students are classified as "users"
 -deletion of user(s)
 -updating of user(s) data
 -activation and deactivation of accounts (CRED button)
--activation and deactivation of specific users allowed  (update button)
+-activation and deactivation of specific users  (update button)
 -distribution of credentials (CRED button)
--numerical view of database structure (click STATISTICS button)
+-numerical view of database structure (click DBSTAT button)
 
 ----TUTOR (USER) FUNCTIONS----
 -input marks for students
 -view position of students based on subject the tutor has access to
 
 ----STUDENT (USER) FUNCTIONS------
--view latest and old results (like a transcript)
--graphical view of transcript
+-view latest and old results 
+-graphical view of all available exams (like a transcript)
 
 ---GENERAL FUNCTIONS FOR ADMINISTRATOR AND USERS-----
 -password reset
@@ -117,20 +119,21 @@ Note: if password and hint is lost then your account cannot be recovered though 
 
 -----INTERNAL WORKINGS--------
 -Some functions can be performed for a group of users at a time
--Deleting a student or tutor will all info related to user.
--Updating a tutor means increasing tutor access level (adding a new subject)
--Updating  student(s) info delete(s) all previous subject(s) and set the newly added ones .Meaning you have to re-select old/current subject(s) when updating users or else you will lose all unselected subject info relating to user(s)
--latest added exam becomes active. if deleted it will shift to the previous one (based on PRIMARY KEY(id))
--admin has no functional influence over results and there is not functionality provided for admin to insert marks
+-Deleting a student or tutor will remove all info related to user.
+-Updating a tutor means giving  tutor  a new  subject 
+-Updating  student(s) info delete(s) all previous subject(s) and set the newly added ones .Meaning you have to reselect or choose all you want subject(s) when updating users
+-admin has no functional influence over results and there is not functionality provided for admin to modify/tamper with results
 -computation of marks is automated.
 -deadlines for tutors to record marks has to be done phyiscally through the block of all tutor accounts. (single button provided)
 -students can  be block from viewing marks 
 -a single user account can be deactivated or activated
--students are logged out of their accounts after 5 minutes
--tutors are logged out of their accounts after 1 hour
+-students are logged out of their accounts after 15 minutes
+-tutors are logged out of their accounts after 6 hours
 
 
 -----SECURITY--------
+I strongly recommend you to deploy the app on HTTPS becuase credentials are transmitted to server before they are hashed.
+
 Crytography: passwords in "slogin" tables (permanent passwords) are hashed with BLOWFISH which is relatively secured(60 character hashes), hints are also hashed. 
 Didn't do this for "login" tables because they are required for first time logins and for that matter, Admin has to distribute them.
 -put in effort to prevent vulnerabilities (sql/code injections etc)
@@ -138,17 +141,9 @@ Didn't do this for "login" tables because they are required for first time login
 -password bruteforce is partially impractical because there is a 3 seconds delay in the login section.
 
 PROBLEMS:
-password characters being restricted A-Za-z1-9. This might affect the password security of some users
-Length of admin password being limited to the range, 16-50 and users being limited to 8-25
--- the above also applies to hints
-
-
+Datebase structure is clumsy and inefficient
 Note: password can be bruteforced with large number of resources and time
 
-
-----NOTES----
--author take no responsibility for failure of software
--Parts of code might be crapy,clumsy or unprofessional and I'm ready for corrections and constructive critcisms
 
 
 ---BUGS----

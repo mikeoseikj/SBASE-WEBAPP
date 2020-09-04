@@ -3,11 +3,11 @@
 
 session_start();
 
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"]==true && $_SESSION["user"]=="student")
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true && $_SESSION["user"] == "student")
 {
 
-//logout users out after 5 minutes
-	if((time()-$_SESSION["timestamp"]) > 300)
+//logout users out after 15 minutes
+	if((time()-$_SESSION["timestamp"]) > 900)
 	{
 		print("<script>alert('session timeout');document.location.href='../../login/logout.php'</script>");
 		exit;
@@ -15,19 +15,19 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 
 
 	print("<html>");
-	include '../../login/connection.php';
-	$conn=sql_connect();
+	include('../../login/connection.php');
+	$conn = sql_connect();
 
-	$username=$_SESSION["username"];
+	$username = $_SESSION["username"];
 
 //get exam names
-	$sql="SELECT exam FROM student_overrall_marks WHERE username='".$username."'";
-	$exams=array();
-	$results=mysqli_query($conn,$sql);
+	$sql = "SELECT exam FROM student_overrall_marks WHERE username='".$username."'";
+	$exams = array();
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
-		while($rows=mysqli_fetch_assoc($results))
+		while($rows = mysqli_fetch_assoc($results))
 		{
 			array_push($exams,$rows["exam"]);
 		}
@@ -37,19 +37,19 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	}
 
 //get values to fill sections of piechart
-	$chart="";
-	for($i=0;$i<count($exams);$i++)
+	$chart = "";
+	for($i=0; $i < count($exams); $i++)
 	{
-		$sql="SELECT * FROM student_overrall_marks WHERE username='".$username."' AND exam='".$exams[$i]."'";
-		$results=mysqli_query($conn,$sql);
+		$sql = "SELECT * FROM student_overrall_marks WHERE username='".$username."' AND exam='".$exams[$i]."'";
+		$results = mysqli_query($conn,$sql);
 		if(mysqli_num_rows($results) > 0)
 		{
-			while($x=mysqli_fetch_assoc($results))
+			while($x = mysqli_fetch_assoc($results))
 			{
-				if($i==(count($exams)-1))
-					{$chart.="['".$exams[$i]."' ,".$x["marks"]."]";}
+				if($i == (count($exams)-1))
+					{$chart .= "['".$exams[$i]."' ,".$x["marks"]."]";}
 				else
-					{$chart.="['".$exams[$i]."' ,".$x["marks"]."],";}
+					{$chart .= "['".$exams[$i]."' ,".$x["marks"]."],";}
 
 			}
 		}
@@ -58,9 +58,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	print("
 		<html>
 		<body>
-		<marquee><h2 align='center'>GRAPHICAL VIEW OF TRANSCRIPT</h2></marquee>
+		<h1 align='center'>GRAPHICAL VIEW OF TRANSCRIPT</h1>
 		<style type='text/css'>
-		h2
+		h1
 		{
 			color: #66ffff;
 			background-color: #101010;
@@ -71,7 +71,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 			font-family:monospace;
 			background-color: #000000;
 		}
-#piechart 
+		#piechart 
 		{
 			position:fixed;
 			top: 0;

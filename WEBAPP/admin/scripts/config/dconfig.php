@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"]==true &&  $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] ==true)
 {
 
 	print("<style type='text/css'>
@@ -9,6 +9,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		{
 			background-color: #000000;
 			font-family: monospace;
+			margin-top: 10%;
 		}
 		h1
 		{
@@ -61,15 +62,12 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	print("<marquee><h1 align='center'><i>DATABASE FIELD DELETION</i></h1></marquee>");
 
-	include '../../../login/connection.php';
-	$conn=sql_connect();
+	include('../../../login/connection.php');
+	$conn = sql_connect();
 
+	$sql = "SELECT form FROM form_info";
 
-	print("connection succesful<br />");
-
-	$sql="SELECT form FROM form_info";
-
-	$results=mysqli_query($conn,$sql);
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -86,9 +84,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 
 
-	$sql="SELECT track FROM track_info";
+	$sql = "SELECT track FROM track_info";
 
-	$results=mysqli_query($conn,$sql);
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -103,15 +101,15 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			}
 		}
 	}
+  
+	$sql = "SELECT department FROM department_info";
 
-	$sql="SELECT department FROM department_info";
-
-	$results=mysqli_query($conn,$sql);
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
 		print("<h2 align='center'>DEPARTMENTS IN DATABASE</h2>");
-		while($row=mysqli_fetch_assoc($results))
+		while($row = mysqli_fetch_assoc($results))
 		{
 			if(! empty($row["department"]))
 			{
@@ -125,15 +123,15 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 
 //reading all classes from database
-	$sql="SELECT class FROM class_info";
+	$sql = "SELECT class FROM class_info";
 
-	$results=mysqli_query($conn,$sql);
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
 		print("<h2 align='center'>CLASS IN DATABASE</h2>");
 
-		while($row=mysqli_fetch_assoc($results))
+		while($row = mysqli_fetch_assoc($results))
 		{
 			if(! empty($row["class"]))
 			{
@@ -148,16 +146,16 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 
 //reading all subjects from database
-	$sql="SELECT subject FROM subject_info";
+	$sql = "SELECT subject FROM subject_info";
 
-	$results=mysqli_query($conn,$sql);
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
 		print("<h2 align='center'>SUBJECT IN DATABASE</h2>");
 
 
-		while($row=mysqli_fetch_assoc($results))
+		while($row = mysqli_fetch_assoc($results))
 		{
 			if(! empty($row["subject"]))
 			{
@@ -171,16 +169,16 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 
 //reading all exams from database
-	$sql="SELECT exam FROM exam_info";
+	$sql = "SELECT exam FROM exam_info";
 
-	$results=mysqli_query($conn,$sql);
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
 		print("<h2 align='center'>EXAMS IN DATABASE</h2>");
 
 
-		while($row=mysqli_fetch_assoc($results))
+		while($row = mysqli_fetch_assoc($results))
 		{
 			if(! empty($row["exam"]))
 			{

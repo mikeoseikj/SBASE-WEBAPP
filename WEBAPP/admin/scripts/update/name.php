@@ -4,8 +4,8 @@ session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
 
-	$page1 =
-	"
+	
+	print("
 	<html>
 	<head>
 	<style type='text/css'>
@@ -16,6 +16,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 	.finput
 	{
+		font-family: monospace;
 		color: #202020;
 		font-size: 18px;
 		width: 90%;
@@ -31,7 +32,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		display: block;
 		position: fixed;
 		z-index:1;
-		background-color: rgb(0, 0, 0); 
 		background-color: rgba(0, 0, 0, 0.4); 
 		width: 100%;
 		height: 100%;
@@ -44,9 +44,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		border: solid 1px #88ffff;
 		margin: 10%;
 		background-color: #101010;
-		width: 30%;
+		width: 40%;
 		margin: 10%;
-		height: 140px;
+		height: 290px;
 		color: #888;
 		opacity: 1;
 	}
@@ -63,7 +63,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		opacity: 0.8;
 		border-radius: 5px;
 		font-family: monospace;
-
 	}
 	.cancel
 	{
@@ -78,11 +77,10 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	select
 	{
-		
 		font-family: monospace;
 		text-align: center;
 		font-size: 18px;
-		width: 60%;
+		width: 18%;
 		background-color: #404040;
 		color: #ddffff;
 		border: solid 1px #ddffff;
@@ -99,49 +97,32 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	function closeDialog()
 	{
 		document.getElementById('appear').style.display='none';
-
 	}
+
 	function toContinue()
 	{
-		var status = confirm('Do you want to continue deletion?');
+		var status = confirm('Proceed to change name of user?');
 		return status;
-
 	}
 	</script>
 
 
 	</head>
 	<body>
-	<div id='appear' class='container'>
-	<form action='delexam.php' id='del'  class='form-box' onsubmit='return toContinue()' method='POST'>
+	<div class='container' id='appear'>
+	<form id='update_name' action='change_name.php' class='form-box' onsubmit='return toContinue()' method='POST'>
 	<a class='cancel' onClick='closeDialog()'>&times</a>
-	<h3 align='center'>DELETE BY EXAM</h3><br />";
-	$page2 = "<input  value='proceed' type='submit'></input></form></div></body></html>";
 
+	<h3 align='center'>CHANGE NAME OF USER</h3>
+	<input  name='username'  pattern='[a-zA-z0-9.]{12,14}' maxlength='14' placeholder='Enter username' class='finput' type='text' required></input>
 
-	include('../../../login/connection.php');
-	$conn = sql_connect();
-
-
-	$menu = "<select name='exam_menu' form='del' required>";
-
-	$sql = "SELECT exam FROM exam_info";
-	$results = mysqli_query($conn,$sql);
-
-	if(mysqli_num_rows($results) > 0)
-	{
-
-		while($row = mysqli_fetch_assoc($results))
-		{
-			$menu = $menu."<option value='".$row["exam"]."'>".$row["exam"]."</option>";
-		}
-		$menu = $menu."</select>";
-
-
-	}
-
-
-	print($page1.$menu.$page2);
+	<input  name='realname'  pattern='[a-zA-z ]{1,}' placeholder='Name (eg: John Doe)' class='finput' type='text' required></input>
+	<input  value='continue' type='submit'></input>
+	</form>
+	</div>
+	</body>
+	</html>
+	");
 
 }
 else

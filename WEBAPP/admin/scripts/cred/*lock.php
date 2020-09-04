@@ -1,44 +1,42 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"]==true && $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true && $_SESSION["loggedin"] == true)
 {
 	
-	include '../../../login/connection.php';
-	include '../../../login/func.php';
+	include('../../../login/connection.php');
+	include('../../../login/func.php');
 
-	$cmd=sanitize_sql_input($_GET["cmd"],10,"/[^a-zA-Z]/");
+	$cmd = $_GET["cmd"];
 
+	$conn = sql_connect();
 
-
-	$conn=sql_connect();
-
-	if($cmd=="tlock")
+	if($cmd == "tlock")
 	{
-		$sql="UPDATE tutor_login_info SET status=0 WHERE status=1";
+		$sql = "UPDATE tutor_login_info SET status=0 WHERE status=1";
 		mysqli_query($conn,$sql);
-		$sql="UPDATE tutor_slogin_info SET status=0 WHERE status=1";
+		$sql = "UPDATE tutor_slogin_info SET status=0 WHERE status=1";
 		mysqli_query($conn,$sql);
 	}
-	elseif($cmd=="tunlock")
+	elseif($cmd == "tunlock")
 	{
-		$sql="UPDATE tutor_login_info SET status=1 WHERE status=0";
+		$sql = "UPDATE tutor_login_info SET status=1 WHERE status=0";
 		mysqli_query($conn,$sql);
-		$sql="UPDATE tutor_slogin_info SET status=1 WHERE status=0";
+		$sql = "UPDATE tutor_slogin_info SET status=1 WHERE status=0";
 		mysqli_query($conn,$sql);
 	}
-	elseif($cmd=="slock")
+	elseif($cmd == "slock")
 	{
-		$sql="UPDATE student_login_info SET status=0 WHERE status=1";
+		$sql = "UPDATE student_login_info SET status=0 WHERE status=1";
 		mysqli_query($conn,$sql);
-		$sql="UPDATE student_slogin_info SET status=0 WHERE status=1";
+		$sql = "UPDATE student_slogin_info SET status=0 WHERE status=1";
 		mysqli_query($conn,$sql);
 	}
-	elseif($cmd=="sunlock")
+	elseif($cmd == "sunlock")
 	{
-		$sql="UPDATE student_login_info SET status=1 WHERE status=0";
+		$sql = "UPDATE student_login_info SET status=1 WHERE status=0";
 		mysqli_query($conn,$sql);
-		$sql="UPDATE student_slogin_info SET status=1 WHERE status=0";
+		$sql = "UPDATE student_slogin_info SET status=1 WHERE status=0";
 		mysqli_query($conn,$sql);
 	}
 	else

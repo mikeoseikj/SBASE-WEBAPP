@@ -5,7 +5,7 @@
 
 //make page accessible only by link
 $file = substr($_SERVER["HTTP_REFERER"],-7);
-if($file !=="rec.php")
+if($file !== "rec.php")
 {
 	header("location: ../index.php");
 	exit;
@@ -14,20 +14,20 @@ if($file !=="rec.php")
 print("<body bgcolor='#000000'></body>");
 
 
-include '../func.php';
+include('../func.php');
 
-$username=sanitize_sql_input($_POST["username"],14,"/[^a-zA-Z1-9.]/");
-$password1 = sanitize_sql_input($_POST["password1"],32,"/[^a-zA-Z1-9]/");
-$password2 = sanitize_sql_input($_POST["password2"],32,"/[^a-zA-Z1-9]/");
+$username = sanitize_sql_input($_POST["username"],"/[^a-zA-Z0-9.]/");
+$password1 = sanitize_sql_input($_POST["password1"],"/[^a-zA-Z0-9.\-_()+*#@%$]/");
+$password2 = sanitize_sql_input($_POST["password2"],"/[^a-zA-Z0-9.\-_()+*#@%$]/");
 
 
 //old hints for account recovery
-$ohint1 = sanitize_sql_input($_POST["ohint1"],50,"/[^a-zA-Z1-9]/");
-$ohint2 = sanitize_sql_input($_POST["ohint2"],50,"/[^a-zA-Z1-9]/");
+$ohint1 = sanitize_sql_input($_POST["ohint1"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
+$ohint2 = sanitize_sql_input($_POST["ohint2"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
 
 //hints for new password
-$hint1 = sanitize_sql_input($_POST["hint1"],50,"/[^a-zA-Z1-9]/");
-$hint2 = sanitize_sql_input($_POST["hint2"],50,"/[^a-zA-Z1-9]/");
+$hint1 = sanitize_sql_input($_POST["hint1"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
+$hint2 = sanitize_sql_input($_POST["hint2"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
 
 
 if($password1 !==$password2 || $hint1 !==$hint2 || $ohint1 !==$ohint2)
@@ -39,7 +39,7 @@ if($password1 !==$password2 || $hint1 !==$hint2 || $ohint1 !==$ohint2)
 
 if(empty($password1) || empty($hint1) || empty($ohint1) || empty($username))
 {
-	print("<script>alert('not allowed');document.location.href='../index.php'</script>");
+	print("<script>alert('An empty field was provided');document.location.href='../index.php'</script>");
 	exit;
 };
 
@@ -49,7 +49,7 @@ if(strtolower($username)=="admin")
 {
 	if(strlen($password1) < 16  || strlen($ohint1) < 16  || strlen($hint1) < 16 )
 	{
-		print("<script>alert('password must be >16 < 33 and hint > 15 and < 51');document.location.href='../index.php'</script>");
+		print("<script>alert('password and hint must be 16 or more characters');document.location.href='../index.php'</script>");
 		exit;
 	}
 }
@@ -58,24 +58,22 @@ else
 {
 	if(strlen($password1) < 8 || strlen($ohint1) < 8 || strlen($hint1) < 8 )
 	{
-		print("<script>alert('password must be >7 and < 26 and hint > 7 and < 51');document.location.href='../index.php'</script>");
+		print("<script>alert('password and hint must 8 or more characters');document.location.href='../index.php'</script>");
 		exit;
 	}
 }
 
-$pass_hash=password_hash($password1,PASSWORD_BCRYPT);
-$hint_hash=password_hash(strtolower($hint1),PASSWORD_BCRYPT);
+$pass_hash = password_hash($password1,PASSWORD_BCRYPT);
+$hint_hash = password_hash(strtolower($hint1),PASSWORD_BCRYPT);
 
-$dbhost="localhost:3306";
-$dbuser="root";
-$dbpass="";
-$dbname="SBASE";
 
-$conn=mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+$config = include('../../config.php');
+
+$conn = mysqli_connect($config->dbhost, $config->dbuser, $config->dbpass, "SBASE");
 
 if(! $conn)
 {
-	print("<script>alert('".mysqli_connect_error()."');document.location.href='../index.php'</script>");
+	print("<script>alert('DATABASE CONNECTION PROBLEM');document.location.href='../index.php'</script>");
 	exit;
 }
 
@@ -83,11 +81,11 @@ if(! $conn)
 sleep(3);
 
 $table;
-if(strlen($username)==14)
+if(strlen($username) == 14)
 	{$table="tutor";}
-elseif(strlen($username)==12)
+elseif(strlen($username) == 12)
 	{$table="student";}
-elseif(strtolower($username)=="admin")
+elseif(strtolower($username) == "admin")
 	{$table="admin";}
 else
 {
@@ -95,17 +93,17 @@ else
 	exit;
 }
 
-if($table=="admin")
+if($table == "admin")
 {
 
 	$sql="SELECT * FROM admin_slogin_info";
-	$results=mysqli_query($conn,$sql);
-	while($rows=mysqli_fetch_assoc($results))
-		$hint=$rows["recoveryhint"];
+	$results = mysqli_query($conn,$sql);
+	while($rows = mysqli_fetch_assoc($results))
+		$hint = $rows["recoveryhint"];
 
-	if(password_verify($ohint1,$hint))
+	if(password_verify($ohint1, $hint))
 	{
-		$sql="UPDATE ".$table."_slogin_info SET password='".$pass_hash."' ,recoveryhint='".$hint_hash."'"; 
+		$sql = "UPDATE ".$table."_slogin_info SET password='".$pass_hash."' ,recoveryhint='".$hint_hash."'"; 
 		mysqli_query($conn,$sql);
 	}
 	else
@@ -118,17 +116,17 @@ if($table=="admin")
 
 else
 {
-	$sql="SELECT * FROM ".$table."_slogin_info WHERE username='".$username."' AND status='1'";
-	$results=mysqli_query($conn,$sql);
+	$sql = "SELECT * FROM ".$table."_slogin_info WHERE username='".$username."' AND status='1'";
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
-		while($rows=mysqli_fetch_assoc($results))
+		while($rows = mysqli_fetch_assoc($results))
 		{
 
 			if(password_verify($ohint1,$rows["recoveryhint"]))
 			{
-				$sql="UPDATE ".$table."_slogin_info SET password='".$pass_hash."' ,recoveryhint='".$hint_hash."' WHERE username='".$username."'" ;
+				$sql = "UPDATE ".$table."_slogin_info SET password='".$pass_hash."' ,recoveryhint='".$hint_hash."' WHERE username='".$username."'" ;
 				mysqli_query($conn,$sql);
 			}
 			else

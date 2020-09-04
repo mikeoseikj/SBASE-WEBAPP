@@ -1,24 +1,22 @@
 <?php
 
-
 if(isset($_SESSION["username"]) && $_SESSION["password"])
 {
 
 	function sql_connect()
 	{
-		$dbhost="localhost:3306";
-		$dbuser="root";
-		$dbpass="";
-		$dbname="SBASE";
-		$conn=mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+		$config = include(dirname(__DIR__).'/config.php');
+	
+		$conn = mysqli_connect($config->dbhost, $config->dbuser, $config->dbpass, 'SBASE');
 		if(! $conn)
 		{
-			print("<script>alert('".mysqli_connect_error()."');document.location.href='index.php'</script>");
+			print("<script>alert('DATABASE CONNECTION PROBLEM');document.location.href='index.php'</script>");
 			exit;
 		}
 
 		return $conn;
 	}
+
 
 }
 else

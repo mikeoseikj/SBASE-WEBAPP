@@ -2,7 +2,7 @@
 
 session_start();
 print("<body bgcolor='#000000'></body>");
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"]==true &&  $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"]== true)
 {
 	print("
 		<!DOCTYPE html>
@@ -29,8 +29,25 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		{
 			document.getElementById('appear').style.display='none';
 		}
+		function logout()
+		{
+			var status = confirm('Do you want to logout?');
+			if(status == true)
+			{
+				window.location = '../login/logout.php'
+			}
+		}
+		function prevent_load_parent()
+		{
+			var doc = document.getElementById('myframe').contentWindow.location.pathname;
+			var file = doc.split('/').slice(-1);
 
+			if(file == 'control_panel.php')
+				document.getElementById('myframe').contentWindow.location = 'dummy.html';
+
+		}
 		</script>
+		
 		</head>
 
 		<body>
@@ -40,7 +57,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<form action='scripts/del/del_name.php' class='form-box' method='POST'>
 		<a onClick='closeDialog1()' class='cancel'>&times</a>
 		<h3 align='center'>Delete Student by Username</h3>
-		<input  name='s_username' placeholder='username' maxlength='12' class='finput' type='text'></input>
+		<input  name='s_username' placeholder='Enter username' maxlength='12' pattern='[a-zA-Z0-9.]{12}' class='finput' type='text' required></input>
 		<input  value='remove' type='submit'></input>
 		</form>
 		</div>
@@ -49,7 +66,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<form action='scripts/del/del_name.php' class='form-box' method='POST'>
 		<a onClick='closeDialog()' class='cancel'>&times</a>
 		<h3 align='center'>Delete Tutor by Username</h3>
-		<input  name='t_username' placeholder='username' maxlength='14' class='finput' type='text'></input>
+		<input  name='t_username' placeholder='Enter username' maxlength='14' pattern='[a-zA-Z0-9.]{14}' class='finput' type='text' required></input>
 		<input  value='remove' type='submit'></input>
 		</form>
 		</div>
@@ -61,7 +78,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<a href='javascript:void(0)' class='closebtn1' onclick='closeAddForm()'>&times;</a>
 		<h1>Add Form</h1>
 
-		<input  maxlength='20' name='FORM' type='text' placeholder='eg (form1)' required >
+		<input  pattern='[a-zA-Z0-9\-_() ]{1,}' name='FORM' type='text' placeholder='eg (form1)' required >
 		<button type='submit' name='submit' class='btn'>Add</button>
 		</form>
 		</div>
@@ -72,8 +89,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<form action='scripts/config/config.php' class='form-container' method='post'>
 		<a href='javascript:void(0)' class='closebtn1' onclick='closeAddTrack()'>&times;</a>
 		<h1>Add Track</h1>
-
-		<input maxlength='20' name='TRACK' type='text' placeholder='eg (gold)' required>
+		<input  pattern='[a-zA-Z0-9\-_() ]{1,}' name='TRACK' type='text' placeholder='eg (gold)' required>
 		<button type='submit' name='submit' class='btn'>Add</button>
 		</form>
 		</div>
@@ -84,7 +100,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<a href='javascript:void(0)' class='closebtn1' onclick='closeAddDepartment()'>&times;</a>
 		<h1>Add Department</h1>
 
-		<input maxlength='20' name='DEPARTMENT' type='text' placeholder='eg (science)' required>
+		<input pattern='[a-zA-Z0-9\-_() ]{1,}' name='DEPARTMENT' type='text' placeholder='eg (science)' required>
 
 		<button type='submit' name='submit' class='btn'>Add</button>
 		</form>
@@ -96,7 +112,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<a href='javascript:void(0)' class='closebtn1' onclick='closeAddClass()'>&times;</a>
 		<h1>Add Class</h1>
 
-		<input  maxlength='20' name='CLASS' type='text' placeholder='eg (1S2)' required>
+		<input  pattern='[a-zA-Z0-9\-_() ]{1,}' name='CLASS' type='text' placeholder='eg (1S2)' required>
 		<button type='submit' name='submit' class='btn'>Add</button>
 		</form>
 		</div>
@@ -107,7 +123,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<a href='javascript:void(0)' class='closebtn1' onclick='closeAddSubject()'>&times;</a>
 		<h1>Add Subject</h1>
 
-		<input  maxlength='20' name='SUBJECT' type='text' placeholder='eg (ICT)' required>
+		<input  pattern='[a-zA-Z0-9\-_() ]{1,}' name='SUBJECT' type='text' placeholder='eg (ICT)' required>
 		<button type='submit' name='submit' class='btn'>Add</button>
 		</form>
 		</div>
@@ -118,7 +134,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<form action='scripts/config/addexam.php' class='form-container' method='post'>
 		<a href='javascript:void(0)' class='closebtn1' onclick='closeAddExam()'>&times;</a>
 		<h1>Add Latest Exam</h1>
-		<input  maxlength='20' name='EXAM' type='text' placeholder='eg (219 form 1 term 1)' required >
+		<input  pattern='[a-zA-Z0-9\-_() ]{1,}' name='EXAM' type='text' placeholder='eg (2019 form 1 term 1)' required >
 		<button type='submit' name='submit' class='btn'>Add</button>
 		</form>
 		</div>
@@ -137,7 +153,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<a href='scripts/config/dconfig.php' target='frame'>Remove Fields</a>
 		<br /><br />
 		<a href='../login/change/pass.php' target='frame'><i class='fa fa-key'></i> Change Password</a>
-		<a href='../login/logout.php'><i class='fa fa-sign-out'></i> logout</a>
+		<a onclick='logout()'><i class='fa fa-sign-out'></i> logout</a>
 		</div>
 
 		<div class='header' >
@@ -161,7 +177,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<a href='scripts/del/department.php' target='frame'>by Department</a>
 		<a href='scripts/del/class.php' target='frame'>by Class</a>
 		<a href='scripts/del/subject.php' target='frame'>by Subject</a>
-		<a href='scripts/del/exam.php' target='frame'>by Exam</a>
+		<a href='scripts/del/exam.php' target='frame'>Students by Exam</a>
 
 		</div>
 		</div>
@@ -178,6 +194,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<a href='scripts/update/student.php' target='frame'>Students</a>
 		<a href='scripts/status/tstatus.php' target='frame'>Tutor *ctivation</a>
 		<a href='scripts/status/sstatus.php' target='frame'>Student *ctivation</a>
+		<a></a>
+		<a href='scripts/update/name.php' target='frame'>Change Name of User</a>
 		</div>
 		</div>
 
@@ -202,10 +220,11 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<a href='scripts/add/add_tutor.php' target='frame'><i class='fa fa-plus-circle'></i> NEW TUTOR</a>
 		<a href='scripts/view/vstud.php' target='frame'><i class='fa fa-list'></i> VIEW STUDENTS</a>
 		<a href='scripts/view/vtut.php' target='frame'><i class='fa fa-th-list'></i> SHOW TUTORS</a>
-		<a href='scripts/view/stats.php' target='frame' ><i class='fa fa-area-chart'></i> STATISTICS</a>
+		<a href='scripts/view/stats.php' target='frame' ><i class='fa fa-area-chart'></i> DB-STATS</a>
 		</div> 
 		</div>
-		<iframe  style='border: 0;margin-top:20%;'  width='100%' height='100%' class='fr' name='frame' ></iframe>
+        
+		<iframe src='dummy.html' class='fr' name='frame' id='myframe' onload='prevent_load_parent()'></iframe>
 		</body>
 		</html>");
 }

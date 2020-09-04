@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"]==true &&  $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"]== true)
 {
 	$page1=
 	"
@@ -17,13 +17,11 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	input[type='text'] 
 	{
-
+        font-family: monospace;
 		color: #88ffff;
 		background-color: #101010;
 		margin:2px 0
-		border-style: solid;
-		border-width: 1px;
-		border-color: #88ffff;
+		border: solid 1px #88ffff;
 		height: 30px;
 		width: 40%;
 		border-radius:3px;
@@ -34,9 +32,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	{
 		color: #000000;
 		background-color: #99eeee;
-		border-style: solid;
-		border-width: 2px;
-		border-color: #88ffff;
+		border: solid 2px #88ffff;
 		border-radius: 2px;
 	}
 	fieldset
@@ -61,10 +57,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	{
 		color:#e0e0e0;
 		background-color: #f44336;
-		border-style: solid;
-		border-width: 1px;
+		border: solid 1px #f44336;
 		border-radius: 1px;
-		border-color: #f44336;
 	}
 
 	select
@@ -75,9 +69,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		width: 18%;
 		background-color:#090909;
 		color:green;
-		border-style: solid;
-		border-width: 1px;
-		border-color: green;
+		border: solid 1px green;
 	}
 
 	select:hover
@@ -89,7 +81,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	</head>
 	<body>
 	
-	<h1  align='center' >UPLOADING OF STUDENTS IN THE SAME CLASS</h1>
+	<h1  align='center'>UPLOADING OF STUDENTS IN THE SAME CLASS</h1>
 	<br />
 	<h3 style='color: #ff2342'>Select the various fields for students the in the bar below </h3>
 	";
@@ -98,15 +90,14 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	"
 
 	<br /><br />
-	<form action='register_student.php' id='add_student' method='post'>
+	<form action='register_student.php' id='add_student' method='POST'>
 	<fieldset id='student'>
 	<legend>STUDENTS</legend>
-	<label for='p1'>name:</label>
-	<input maxlength='30' width='40%' type='text' name='p1' id='p1'>
+	<label for='p1'>FullName:</label>
+	<input pattern='[a-zA-Z ]{1,}'  width='40%' type='text' name='name_list[]' id='p1' required>
 	</fieldset>
 	<div>
-	<br />
-	<br />
+	<br /><br />
 	<input  type='submit' value='upload all students'>
 	</div>
 	</form>
@@ -119,61 +110,55 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 
 
-	include '../../../login/connection.php';
-	$conn=sql_connect();
+	include('../../../login/connection.php');
+	$conn = sql_connect();
 
-	if(! $conn)
-	{
-		print("connection failed".mysqli_connect_error());
-		exit;
-	}
-
-	$all_menu="";
+	$all_menu = "";
 
 	$menu="";
 	$field="";
 	for($i=0; $i<5; $i++)
 	{
 
-		if($i==0)
-			$field="form";
-		elseif($i==1)
-			$field="track";
-		elseif($i==2)
-			$field="department";
-		elseif($i==3)
-			$field="class";
-		elseif($i==4)
-			$field="subject";
+		if($i == 0)
+			$field = "form";
+		elseif($i == 1)
+			$field = "track";
+		elseif($i == 2)
+			$field = "department";
+		elseif($i == 3)
+			$field = "class";
+		elseif($i == 4)
+			$field = "subject";
 
 
-		$menu="<select name='".$field."_menu' form='add_student'>";
+		$menu = "<select name='".$field."_menu' form='add_student'>";
 
-		if($field=="subject")
-			$menu="<br /><h3 style='color: #ff2342' align='top' >press and hold ctrl to select multiple subjects</h3><div><select   multiple name='".$field."_menu[]' form='add_student' required>";
+		if($field == "subject")
+			$menu = "<br /><h3 style='color: #ff2342' align='top' >press and hold ctrl to select multiple subjects</h3><div><select   multiple name='".$field."_menu[]' form='add_student' required>";
 
 
 //building select menus
-		$sql="SELECT ".$field." FROM ".$field."_info";
-		$results=mysqli_query($conn,$sql);
+		$sql = "SELECT ".$field." FROM ".$field."_info";
+		$results = mysqli_query($conn,$sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
 
-			while($row=mysqli_fetch_assoc($results))
+			while($row = mysqli_fetch_assoc($results))
 			{
-				$menu=$menu."<option value='".$row[$field]."'>".$row[$field]."</option>";
+				$menu = $menu."<option value='".$row[$field]."'>".$row[$field]."</option>";
 			}
-			$menu=$menu."</select>";
+			$menu = $menu."</select>";
 
-			if($field=="subject")
-				$menu=$menu."</div><br /><hr style='color: red; width: 100%; border-style:thin;'> </hr>";
+			if($field == "subject")
+				$menu = $menu."</div><br /><hr style='color: red; width: 100%; border-style:thin;'> </hr>";
 
-			$all_menu=$all_menu.$menu;
+			$all_menu = $all_menu.$menu;
 		}
 
 
-}//for loop
+    }//for loop
 print($page1.$all_menu.$page2);
 }
 else

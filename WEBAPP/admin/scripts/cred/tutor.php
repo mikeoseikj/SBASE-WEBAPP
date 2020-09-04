@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"]==true && $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true && $_SESSION["loggedin"] == true)
 {
 
 	print(
@@ -21,9 +21,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		table, th, td
 		{
 			font-family: monospace;
-			border-style: solid;
-			border-width: 1px;
-			border-color: #99ffff;
+			border: solid 1px #99ffff;
 			border-collapse: collapse;
 			padding: 5px;
 		}
@@ -44,28 +42,28 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		");
 
 
-	include '../../../login/connection.php';
-	$conn=sql_connect();
+	include('../../../login/connection.php');
+	$conn = sql_connect();
 
-	$sql="SELECT * FROM tutor_login_info";
-	$results=mysqli_query($conn,$sql);
+	$sql = "SELECT * FROM tutor_login_info";
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
 		print("<h1 style='font-family:monospace; color: #88ffff' align='center'>CREDENTIALS FOR NEWLY ADDED TUTORS</h1>");
 		print("<table width='100%'><tr><th>Name</th><th>Username</th><th>Password</th><th>State</th></tr>");
 
-		while($rows=mysqli_fetch_assoc($results))
+		while($rows = mysqli_fetch_assoc($results))
 		{
 
-			$sql="SELECT tutorname FROM tutor_access_info WHERE username='".$rows["username"]."' LIMIT 1";
-			$ret=mysqli_query($conn,$sql);
-			while($lane=mysqli_fetch_assoc($ret))
-				$name=$lane["tutorname"];
+			$sql = "SELECT tutorname FROM tutor_access_info WHERE username='".$rows["username"]."' LIMIT 1";
+			$ret = mysqli_query($conn,$sql);
+			while($lane = mysqli_fetch_assoc($ret))
+				$name = $lane["tutorname"];
 
-			$state="inactive";
-			if($rows["status"]==1)
-				$state="active";
+			$state = "inactive";
+			if($rows["status"] == 1)
+				$state = "active";
 			print
 			(
 				"<tr><td><button>".$name."</button></td>".

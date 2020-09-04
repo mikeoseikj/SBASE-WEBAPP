@@ -1,17 +1,14 @@
 <?php
 
-function sanitize_sql_input($input,$length,$regex)
+// remove all characters in '$regex' from '$input'. After we check if there is a change in length. if there is, exit => (this will likely be someone trying to hack it )
+function sanitize_sql_input($input, $regex)
 {
 
-    $num_of_spaces=substr_count($input,' ');
-
-	$size=strlen($input);
+	$size = strlen($input);
 	$input = preg_replace($regex, "", $input);
-	$input=substr($input,0,(int)$length);
-
-	if(strlen($input) !== $size && (strlen($input) + $num_of_spaces) !==$size )
-		exit;
 	
+	if(strlen($input) !== $size)  
+		exit;
 	return $input;
 }
 

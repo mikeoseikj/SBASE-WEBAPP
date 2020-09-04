@@ -2,21 +2,22 @@
 
 
 session_start();
-if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"]==true && $_SESSION["user"]=="tutor")
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true && $_SESSION["user"] == "tutor")
 {
 
-//logout users out after 1 hour
-	if((time()-$_SESSION["timestamp"]) > 3600)
+//logout users out after 6 hours
+	if((time()-$_SESSION["timestamp"]) > 21600)
 	{
 		print("<script>alert('session timeout');document.location.href='../../login/logout.php'</script>");
 		exit;
 	}
 
 
-	$css=
+	$css =
 	"
 	<head>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 	<style type='text/css'>
 	body
@@ -39,6 +40,7 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 	}
 	input[type=text]
 	{
+		font-family: monospace;
 		background-color: #303030;
 		color: #999999;
 		border: none;
@@ -83,80 +85,169 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 		border-bottom-color: #88ffff;
 	}
 
+	.sidenav 
+	{
+		font-family: monospace;
+		border-style:solid;
+		border-width:0px;
+		border-right-width:1px;
+		border-right-color:#c0c9c9;
+		height: 100%;
+		width: 0;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		background-color: #202020;
+		overflow-x: hidden;
+		padding-top:60px;
+		transition: 0.5s;
+		padding-top: 60px;
+	}
+
+	.sidenav a 
+	{
+		border-style:solid;
+		border-width:0px;
+		border-bottom-width:1px;
+		padding: 8px 8px 8px 18px;
+		text-decoration: none;
+		font-size: 15px;
+		color:white;
+		display: block;
+		transition: 0.3s;
+		border-bottom-color:#909090;
+	}
+
+	.sidenav .closebtn 
+	{
+		border-width:0px;
+		position: absolute;
+		top: 0;
+		right: 25px;
+		font-size: 20px;
+		margin-left: 50px;
+	}
+
+
+	.sidenav a:hover 
+	{
+		background-color:#c0c0c0;
+	}
+
 	</style>
+	<!--javascript for side pane-->
+		<script type='text/javascript'>
+		function open_nav() 
+		{
+			document.getElementById('mysidenav').style.width = '250px';
+		}
+
+		function close_nav() 
+		{
+			document.getElementById('mysidenav').style.width = '0';
+		}
+		function logout()
+		{
+			var status = confirm('Do you want to logout?');
+			if(status == true)
+			{
+				window.location = '../../login/logout.php'
+			}
+		}
+		</script>
 	</head>
 	";
 	print($css);
 	
-	include '../../login/connection.php';
-	include '../../login/func.php';
+	include('../../login/connection.php');
+	include('../../login/func.php');
 
-	$form = sanitize_sql_input($_POST["form"],20,"/[^a-zA-Z1-9 ]/");
-	$track = sanitize_sql_input($_POST["track"],20,"/[^a-zA-Z1-9 ]/");
-	$department = sanitize_sql_input($_POST["department"],20,"/[^a-zA-Z1-9 ]/");
-	$class = sanitize_sql_input($_POST["class"],20,"/[^a-zA-Z1-9 ]/");
-	$subject = sanitize_sql_input($_POST["subject"],20,"/[^a-zA-Z1-9 ]/");
+	$form = sanitize_sql_input($_GET["form"],"/[^a-zA-Z0-9\-_() ]/");
+	$track = sanitize_sql_input($_GET["track"],"/[^a-zA-Z0-9\-_() ]/");
+	$department = sanitize_sql_input($_GET["department"],"/[^a-zA-Z0-9\-_() ]/");
+	$class = sanitize_sql_input($_GET["class"],"/[^a-zA-Z0-9\-_() ]/");
+	$subject = sanitize_sql_input($_GET["subject"],"/[^a-zA-Z0-9\-_() ]/");
+
+
 
 
 
 	if(empty($form) || empty($track) || empty($department) || empty($class) ||   empty($subject))
 	{
-		print("<script>alert('not allowed');document.location.href='../../login/index.php'</script>");
+		print("<script>alert('An empty field was provided');document.location.href='page.php'</script>");
 		exit;
 	}
 
-	$username=$_SESSION["username"];
-	$username = sanitize_sql_input($username,14,"/[^a-zA-Z1-9.]/");
-
-
+	$username = $_SESSION["username"];
 	
 	$conn=sql_connect();
 
-	if(! $conn)
+	$exam = "";
+
+	if(isset($_GET["exam"]))
 	{
-		header("location: ../../login/index.php");
-		exit;
+		$exam = sanitize_sql_input($_GET["exam"],"/[^a-zA-Z0-9\-_() ]/");
 	}
-
-	$exam="";
-	$sql="SELECT * FROM exam_info ORDER BY id DESC LIMIT 1";
-	$results=mysqli_query($conn,$sql);
-
-	if(mysqli_num_rows($results) > 0)
+	else
 	{
-		while($rows=mysqli_fetch_assoc($results))
+		$sql = "SELECT * FROM exam_info ORDER BY id DESC LIMIT 1";
+		$results = mysqli_query($conn,$sql);
+
+		if(mysqli_num_rows($results) > 0)
 		{
-			$exam=$rows["exam"];
+			$rows = mysqli_fetch_assoc($results);
+			$exam = $rows["exam"];
+		}
+
+		else
+		{
+			print("<script>alert('No exam');document.location.href='page.php'</script>");
+			exit;
 		}
 	}
 
-	else
-	{
-		print("<script>alert('No exam');document.location.href='page.php'</script>");
-		exit;
-	}
 
+	$sql = "SELECT * FROM student_subject_info WHERE subjectname='".$subject."' AND form='".$form."' AND track='".$track."' AND department='".$department."' AND class='".$class."'";
 
-	$sql="SELECT * FROM student_subject_info WHERE subjectname='".$subject."' AND form='".$form."' AND track='".$track."' AND department='".$department."' AND class='".$class."'";
-
-	$results=mysqli_query($conn,$sql);
+	$results = mysqli_query($conn,$sql);
 	if(mysqli_num_rows($results) > 0)
 	{
+		$sql = "SELECT * FROM exam_info";
+		$x= mysqli_query($conn, $sql);
+		$exam_links = "";
+
+		while($y = mysqli_fetch_assoc($x))
+			$exam_links .= "<a href='manip.php?form=".$form."&track=".$track."&department=".$department."&class=".$class."&subject=".$subject."&exam=".$y["exam"]."  '><i style='font-size: 16px; color: #88ffff;' class='fas fa-boxes'></i> ".$y["exam"]."</a><br />";
+
+
+
 		print(
 			"
-			<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+			<div id='mysidenav' class='sidenav'>
+			<a href='javascript:void(0)' class='closebtn' onclick='close_nav()'>&times;</a><br />
+			<a style='color: #55ffff' href='page.php'><i class='fa fa-home'></i> Go Mainpage</a><br /><br />
+			<a style='color: #55ffff'>EXAMINATION LIST</a><br />
+			<a></a>
+			".$exam_links."</div>
 
 			<div class='header'>
 			<h1 align='center'>RECORDING SHEET</h1>
-			<a style='color:#ffffff;font-size:25px;cursor:pointer' href='../../login/logout.php'><i class='fa fa-sign-out'></i></a>
 
-			<a style='color:#ffffff;font-size:25px;cursor:pointer' href='page.php'><i class='fa fa-home'></i></a><br /><br />
+			<span style='font-size:30px;cursor:pointer' onclick='open_nav()'>&#9776;</span><br /><br />
 
-			<label style='margin-right:5%;float: right;color: #99ffff;'>total marks percentage</label><br />
-			<input name='percentage' value='100' form='sheet' style='margin-right: 5%;float: right;width:10%;border: solid 1px #88ffff;' required type='number' step='5' min='0' max='100'></input>
+            <div style='float:right; margin-right: 0px;'>
+
+			<label style='color: #99ffff;'>CLASS PERCENTAGE: </label>
+			<input name='class_percentage' value='30' form='sheet' style='width:10%;border: solid 1px #88ffff; margin-right: 5%;' required type='number' step='5' min='0' max='100' />
+		
+			<label style='color: #99ffff;'>EXAM PERCENTAGE: </label>
+			<input name='exam_percentage' value='70' form='sheet' style='width:10%;border: solid 1px #88ffff;' required type='number' step='5' min='0' max='100' />
+			</div>
+
 			</div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />");
 
-		print("<input name='subject' readonly type='text' form='sheet' style='background-color: #88ffff; color: #202020; border: none;border-radius: 2px;width: 9%;font-family: monospace;' value='".$subject."'></input><br /><br />
+		print("<input name='subject' readonly type='text' form='sheet' style='text-align: center;background-color: #88ffff; color: white; border: none;border-radius: 2px;width: 15%;font-family: monospace;' value='".$subject."'></input><br /><br />
 			
 
 			<a style='float: right; background-color: #ddd;color:#101010; font-family:monospace;text-decoration:none; border: solid 1px #88ffff; border-radius: 2px;'
@@ -170,21 +261,21 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 		print("<form id='sheet' action='record.php' method='POST'>");
 
 
-		while($rows=mysqli_fetch_assoc($results))
+		while($rows = mysqli_fetch_assoc($results))
 		{
 
 //checking if students marks have already been filled; if true fill current input fields with marks 
-			$cmark=0;
-			$emark=0;
-			$sql="SELECT * FROM student_results WHERE subjectname='".$subject."' AND username='".$rows["username"]."' AND exam='".$exam."'";
+			$cmark = 0;
+			$emark = 0;
+			$sql = "SELECT * FROM student_results WHERE subjectname='".$subject."' AND username='".$rows["username"]."' AND exam='".$exam."'";
 
-			$ret=mysqli_query($conn,$sql);
+			$ret = mysqli_query($conn,$sql);
 			if(mysqli_num_rows($ret))
 			{
-				while($lane=mysqli_fetch_assoc($ret))
+				while($lane = mysqli_fetch_assoc($ret))
 				{
-					$cmark=$lane["classmarks"];
-					$emark=$lane["exammarks"];
+					$cmark = $lane["classmarks"];
+					$emark = $lane["exammarks"];
 				}
 			}
 
@@ -206,12 +297,14 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 		print("<input style='display:none' form='sheet' value='".$track."' name='track'></input>");
 		print("<input style='display:none' form='sheet' value='".$department."' name='department'></input>");
 		print("<input style='display:none' form='sheet' value='".$class."' name='class'></input>");
+		print("<input style='display:none' form='sheet' value='".$exam."' name='exam'></input>");
+
 
 	}
 
 	else
 	{
-		print("<h1 align='center' style='color: #88ffff' >NO REGISTERED STUDENTS</h1>");
+		print("<h1 align='center' style='font-family: monospace; margin-top: 10%;color: #88ffff' >NO REGISTERED STUDENTS</h1>");
 	}
 
 }

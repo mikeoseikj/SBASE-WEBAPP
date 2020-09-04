@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"]==true &&  $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
 	print("
 		<style type='text/css'>
@@ -41,26 +41,26 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		</style>");
 
 
-    include '../../../login/connection.php';
-    include '../../../login/func.php';
+    include('../../../login/connection.php');
+    include('../../../login/func.php');
 
-	$form=sanitize_sql_input($_POST["form_menu"],20,"/[^a-zA-Z1-9 ]/");
-	$track=sanitize_sql_input($_POST["track_menu"],20,"/[^a-zA-Z1-9 ]/");
-	$department=sanitize_sql_input($_POST["department_menu"],20,"/[^a-zA-Z1-9 ]/");
-	$class=sanitize_sql_input($_POST["class_menu"],20,"/[^a-zA-Z1-9 ]/");
+	$form = sanitize_sql_input($_POST["form_menu"],"/[^a-zA-Z0-9\-_() ]/");
+	$track = sanitize_sql_input($_POST["track_menu"],"/[^a-zA-Z0-9\-_() ]/");
+	$department = sanitize_sql_input($_POST["department_menu"],"/[^a-zA-Z0-9\-_() ]/");
+	$class = sanitize_sql_input($_POST["class_menu"],"/[^a-zA-Z0-9\-_() ]/");
 
 
 	if(empty($form) || empty($track) || empty($department) || empty($class))
 	{
-		print("<script>alert('not allowed');</script>");
+		print("<script>alert('An empty field was provided');</script>");
 		exit;
 	}
 
 
 	
-	$conn=sql_connect();
+	$conn = sql_connect();
 
-	$sql="SELECT DISTINCT username,studentname FROM student_subject_info WHERE form='".$form."' AND track='".$track."' AND department='".$department."' AND class='".$class."'";
+	$sql = "SELECT DISTINCT username,studentname FROM student_subject_info WHERE form='".$form."' AND track='".$track."' AND department='".$department."' AND class='".$class."'";
 	$results=mysqli_query($conn,$sql);
 
 
@@ -69,17 +69,17 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		print("<h1 style='font-family:monospace; color: #88ffff' align='center'>CREDENTIALS FOR NEWLY ADDED STUDENTS</h1>");
 		print("<table width='100%'><tr><th>Name</th><th>Username</th><th>Password</th><th>State</th></tr>");
 
-		while($rows=mysqli_fetch_assoc($results))
+		while($rows = mysqli_fetch_assoc($results))
 		{
-			$sql="SELECT * FROM student_login_info WHERE username='".$rows["username"]."'";
-			$ret=mysqli_query($conn,$sql);
+			$sql = "SELECT * FROM student_login_info WHERE username='".$rows["username"]."'";
+			$ret = mysqli_query($conn,$sql);
 			if(mysqli_num_rows($ret) < 1)
 				continue;
 
-			$state="inactive";
+			$state = "inactive";
 			while($lane=mysqli_fetch_assoc($ret))
 			{
-				$password=$lane["password"];
+				$password = $lane["password"];
 				if($lane["status"]==1)
 					$state="active";
 			}
@@ -105,7 +105,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 else
 {
-	exit;
 	header("location: ../../../login/index.php");
 }
 ?>

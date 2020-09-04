@@ -12,12 +12,14 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && isset($_SESSI
 		{
 			font-family: monospace;
 			background-image: url('images/index.jpg');
+			background-size: cover;
 			background-repeat: no-repeat;
 		}
 		.finput
 		{
 			color: #000000;
 			width: 90%;
+			height: 30px;
 			padding: 10px;
 			margin:20px;
 			border: none;
@@ -28,30 +30,26 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && isset($_SESSI
 			top:0;
 			left: 0;
 			display: block;
-			position: relative;
 			z-index:1;
-			background-color: rgb(0, 0, 0); 
 			background-color: rgba(0, 0, 0, 0.4); 
 			width: 100%;
 			height: 100%;
-			padding: 16px;
+			position: fixed;
 		}
 		label
 		{
+			font-size: 10px;
 			padding-left: 20px;
 		}
 		.form-box
 		{
 			font-family: monospace;
-			border-style: solid;
-			border-width:1px;
-			border-color: #88ffff;
-			margin: 5%;
+			border: solid 1px #88ffff;
+			margin: 3%;
 			margin-left:30%;
-
 			background-color: #101010;
 			width: 30%;
-			height: 540px;
+			height: 470px;
 			color: #88ffff;
 			opacity: 1;
 		}
@@ -59,34 +57,17 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && isset($_SESSI
 		{
 			background-color: #020202;
 			color: #88ffff;
-			font-size: 14px;
-			padding: 16px 20px;
-			border-style:solid;
+			font-size: 12px;
+			padding: 9px 9px;
 			cursor: pointer;
 			width: 100%;
 			margin-bottom:10px;
 			opacity: 0.8;
 			font-family: monospace;
-			border-width:1px;
-			border-color: #88ffff;
+			border: solid 1px #88ffff;
 
 		}
-
-
-		input[type=button]
-		{
-			font-family: monospace;
-			color: #ffffff;
-			margin-top: 30%;
-			margin-left:48%;
-			width: 120px;
-			height:25px;
-			border-radius: 10px;
-			border: none;
-			background-color: powderblue;
-		}
-
-		</style>
+	</style>
 
 		<script language='javascript'>
 		function setPasswordConfirmValidity(str) 
@@ -102,9 +83,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && isset($_SESSI
 			{
 				password2.setCustomValidity('Passwords must match');
 			}
-
-			console.log('password2 customError ', document.getElementById('password2').validity.customError);
-			console.log('password2 validationMessage ', document.getElementById('password2').validationMessage);
 		}
 
 		function setHintConfirmValidity(str) 
@@ -120,10 +98,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && isset($_SESSI
 				hint2.setCustomValidity('Hints should not match!');
 			}
 
-
-			console.log('hint2 customError ', document.getElementById('hint2').validity.customError);
-			console.log('hint2 validationMessage ', document.getElementById('hint2').validationMessage);
-
 		}
 
 		</script>
@@ -135,20 +109,20 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && isset($_SESSI
 		<h3 align='center'>CREDENTIAL SECURITY</h3><br />
 
 		<label>New Password</label><br />
-		<input  id='password1' name='password1'  placeholder='Enter new password' size='10' class='finput' type='password' pattern='[A-Za-z1-9]{8,25}'  oninput='setPasswordConfirmValidity();' required></input><br />
+		<input  id='password1' name='password1'  placeholder='Enter new password' size='10' class='finput' type='password' pattern='[a-zA-Z0-9.\-_()+*#@%$]{8,}'  oninput='setPasswordConfirmValidity();' required></input><br />
 
 		<label >**</label><br />
-		<input  id='password2' name='password2'  placeholder='Re-enter Password' size='10' class='finput' type='password' pattern='[A-Za-z1-9]{8,25}' oninput='setPasswordConfirmValidity();' required></input><br />
+		<input  id='password2' name='password2'  placeholder='Re-enter Password' size='10' class='finput' type='password' pattern='[a-zA-Z0-9.\-_()+*#@%$]{8,}' oninput='setPasswordConfirmValidity();' required></input><br />
 
 		<h4 align='center'>Account Recovery Settings</h4>
 		<label >Hint</label><br />
-		<input  id='hint1' name='hint1'  placeholder='hint for account recovery' maxlength='50' class='finput' type='text' pattern='[A-Za-z1-9 ]{8,50}' oninput='setHintConfirmValidity();' required></input><br />
+		<input  id='hint1' name='hint1'  placeholder='hint for account recovery' maxlength='50' class='finput' type='text' pattern='[a-zA-Z0-9.\-_()+*#@?%$, ]{8,}' oninput='setHintConfirmValidity();' required></input><br />
 
 		<label >**</label><br />
-		<input  id='hint2' name='hint2'  placeholder='Re-enter hint' maxlength='50' class='finput' type='text' pattern='[A-Za-z1-9 ]{8,50}'  oninput='setHintConfirmValidity();' required></input><br />
+		<input  id='hint2' name='hint2'  placeholder='Re-enter hint' maxlength='50' class='finput' type='text' pattern='[a-zA-Z0-9.\-_()+*#@?%$, ]{8,}'  oninput='setHintConfirmValidity();' required></input><br />
 
 
-		<input  name='submit' value='proceed' type='submit'></input>
+		<input  name='submit' value='PROCEED' type='submit'></input>
 		</form>
 		</div>
 

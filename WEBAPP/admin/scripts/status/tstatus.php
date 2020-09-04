@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"]==true &&  $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
 
 	$page1=
@@ -16,6 +16,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 	.finput
 	{
+		font-family: monospace;
 		color: #202020;
 		font-size: 18px;
 		width: 90%;
@@ -31,7 +32,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		display: block;
 		position: fixed;
 		z-index:1;
-		background-color: rgb(0, 0, 0); 
 		background-color: rgba(0, 0, 0, 0.4); 
 		width: 100%;
 		height: 100%;
@@ -41,14 +41,13 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	.form-box
 	{
 		font-family: monospace;
-		border-style: solid;
-		border-width:1px;
-		border-color: #88ffff;
+		border: solid 1px #88ffff;
 		margin: 10%;
 		background-color: #101010;
 		width: 50%;
+		margin: 10%;
 		height: 279px;
-		color: #88ffff;
+		color: #888;
 		opacity: 1;
 	}
 	.form-box input[type=submit]
@@ -57,15 +56,13 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		color: #88ffff;
 		font-size: 14px;
 		padding: 16px 20px;
-		border-style:solid;
+		border: none;
 		cursor: pointer;
 		width: 100%;
 		margin-bottom:10px;
 		opacity: 0.8;
+		border-radius: 5px;
 		font-family: monospace;
-		border-width:1px;
-		border-color: #88ffff;
-		border-radius: 3px;
 	}
 	.cancel
 	{
@@ -80,14 +77,14 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	select
 	{
+		
+		font-family: monospace;
 		text-align: center;
 		font-size: 18px;
 		width: 18%;
-		background-color:#202020;
-		color:green;
-		border-style: solid;
-		border-width: 1px;
-		border-color: green;
+		background-color: #404040;
+		color: #ddffff;
+		border: solid 1px #ddffff;
 	}
 
 	select:hover
@@ -109,13 +106,13 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	</head>
 	<body>";
 
-	$body="<div id='appear' class='container'>
+	$body = "<div id='appear' class='container'>
 	<form id='tutor_status' action='register_tstatus.php' class='form-box' method='POST'>
 	<a class='cancel' onClick='closeDialog()'>&times</a>
 	<h3 align='center'>TUTOR ACCOUNT STATE</h3><br />
 	";
 
-	$page2=
+	$page2 =
 	"
 	<br /><br /><select style='border-color: #ff0000;float: right;color: #ff0000' name='status' form='tutor_status' required>
 	<option>active</option>
@@ -131,51 +128,51 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	";
 
 
-	include '../../../login/connection.php';
-	$conn=sql_connect();
+	include('../../../login/connection.php');
+	$conn = sql_connect();
 
-	$all_menu="";
+	$all_menu = "";
 
-	$menu="";
-	$field="";
+	$menu = "";
+	$field = "";
 	for($i=0; $i<5; $i++)
 	{
 
-		if($i==0)
-			$field="form";
-		elseif($i==1)
-			$field="track";
-		elseif($i==2)
-			$field="department";
-		elseif($i==3)
-			$field="class";
-		elseif($i==4)
-			$field="subject";
+		if($i == 0)
+			$field = "form";
+		elseif($i == 1)
+			$field = "track";
+		elseif($i == 2)
+			$field = "department";
+		elseif($i == 3)
+			$field = "class";
+		elseif($i == 4)
+			$field = "subject";
 
 
 
-		$menu="<select name='".$field."_menu' form='tutor_status' required>";
+		$menu = "<select name='".$field."_menu' form='tutor_status' required>";
 
 //building select menus
-		$sql="SELECT ".$field." FROM ".$field."_info";
-		$results=mysqli_query($conn,$sql);
+		$sql = "SELECT ".$field." FROM ".$field."_info";
+		$results = mysqli_query($conn,$sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
 
-			while($row=mysqli_fetch_assoc($results))
+			while($row = mysqli_fetch_assoc($results))
 			{
-				$menu=$menu."<option value='".$row[$field]."'>".$row[$field]."</option>";
+				$menu = $menu."<option value='".$row[$field]."'>".$row[$field]."</option>";
 			}
-			$menu=$menu."</select>";
+			$menu = $menu."</select>";
 
 
-			$all_menu=$all_menu.$menu;
+			$all_menu = $all_menu.$menu;
 		}
 
 
-}//for loop
-print($page1.$body.$all_menu.$page2);
+    }//for loop
+	print($page1.$body.$all_menu.$page2);
 
 }
 else

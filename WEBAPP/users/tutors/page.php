@@ -2,27 +2,27 @@
 
 session_start();
 //check if user is logged in 
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"]==true && $_SESSION["user"]=="tutor")
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true && $_SESSION["user"] == "tutor")
 {
 
-//logout users out after 1 hour
-	if((time()-$_SESSION["timestamp"]) > 3600)
+//logout users out after  6 hours
+	if((time()-$_SESSION["timestamp"]) > 21600)
 	{
 		print("<script>alert('session timeout');document.location.href='../../login/logout.php'</script>");
 		exit;
 	}
 
 
-	include '../../login/connection.php';
-	include '../../login/func.php';
-	$conn=sql_connect();
+	include('../../login/connection.php');
+	include('../../login/func.php');
+	$conn = sql_connect();
 
 //getting tutor's name
-	$sql="SELECT tutorname FROM tutor_access_info WHERE username='".$_SESSION["username"]."' LIMIT 1";
-	$ret=mysqli_query($conn,$sql);
-	$name;
-	while($rows=mysqli_fetch_assoc($ret))
-		$name=$rows["tutorname"];
+	$sql = "SELECT tutorname FROM tutor_access_info WHERE username='".$_SESSION["username"]."' LIMIT 1";
+	$ret = mysqli_query($conn,$sql);
+	$name = "";
+	while($rows = mysqli_fetch_assoc($ret))
+		$name = $rows["tutorname"];
 	print("
 		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 
@@ -158,6 +158,14 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 		{
 			document.getElementById('mysidenav').style.width = '0';
 		}
+		function logout()
+		{
+			var status = confirm('Do you want to logout?');
+			if(status == true)
+			{
+				window.location = '../../login/logout.php'
+			}
+		}
 		</script>
 
 
@@ -166,7 +174,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 		<a style='color: #99ffff'>".$name."</a><br /><br />
 		<a href='../../login/change/pass.php'><i class='fa fa-key'></i> Change Password</a>
 		<br />
-		<a href='../../login/logout.php'><i class='fa fa-sign-out'></i> logout</a>
+		<a onclick='logout()'><i class='fa fa-sign-out'></i> logout</a>
 		</div>
 
 
@@ -181,9 +189,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 
 
 
-	$username=$_SESSION["username"];
-
-	$username = sanitize_sql_input($username,14,"/[^a-zA-Z1-9.]/");
+	$username = $_SESSION["username"];
 
 	if(empty($username))
 	{
@@ -191,20 +197,20 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 		exit;
 	}
 
-	$sql="SELECT * FROM tutor_access_info WHERE username='".$username."'";
-	$results=mysqli_query($conn,$sql);
+	$sql = "SELECT * FROM tutor_access_info WHERE username='".$username."'";
+	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
-		while($rows=mysqli_fetch_assoc($results))
+		while($rows = mysqli_fetch_assoc($results))
 		{
-			$board="<br /><br /><form class='board' action='manip.php' method='POST'>";
+			$board="<br /><br /><form class='board' action='manip.php' method='GET'>";
 			$board.="<input type='text' readonly name=form value='".$rows["form"]."'></input>";
 			$board.="<input type='text' readonly name=track value='".$rows["track"]."'></input>";
 			$board.="<input type='text' readonly name=department value='".$rows["department"]."'></input>";
 			$board.="<input type='text' readonly name=class value='".$rows["class"]."'></input>";
 			$board.="<input type='text' readonly name=subject value='".$rows["subject"]."'></input>";
-			$board.="<input type='submit' name='submit' value='select'></input></form>";
+			$board.="<input type='submit'  value='select'></input></form>";
 			print($board);
 		}
 	}
