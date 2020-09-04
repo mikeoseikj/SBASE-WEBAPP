@@ -19,7 +19,7 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 
 
 
-	if(empty($form) || empty($track) || empty($department) || empty($class) || empty($subject))
+	if(empty($form) || empty($track) || empty($department) || empty($class) || empty($subject) || empty($exam))
 	{
 		print("<script>alert('An empty field was provided');document.location.href='page.php'</script>");
 		exit;
