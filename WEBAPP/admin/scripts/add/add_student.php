@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"]== true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
 	$page1=
 	"
@@ -115,9 +115,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	$all_menu = "";
 
-	$menu="";
-	$field="";
-	for($i=0; $i<5; $i++)
+	$menu = "";
+	$field = "";
+	for($i = 0; $i < 5; $i++)
 	{
 
 		if($i == 0)
@@ -138,7 +138,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			$menu = "<br /><h3 style='color: #ff2342' align='top' >press and hold ctrl to select multiple subjects</h3><div><select   multiple name='".$field."_menu[]' form='add_student' required>";
 
 
-//building select menus
+		// building select menus
 		$sql = "SELECT ".$field." FROM ".$field."_info";
 		$results = mysqli_query($conn,$sql);
 
@@ -158,8 +158,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		}
 
 
-    }//for loop
-print($page1.$all_menu.$page2);
+    }// for loop
+	print($page1.$all_menu.$page2);
 }
 else
 {

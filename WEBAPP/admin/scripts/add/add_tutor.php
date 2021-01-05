@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"]==true &&  $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
-	$page1=
+	$page1 =
 	"
 	<html>
 	<head>
@@ -102,12 +102,12 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	<body>";
 
 //form contains <select> to allow admin to register tutors with various fields
-	$body="<div class='container' id='appear'>
+	$body = "<div class='container' id='appear'>
 	<form id='add_tutor' action='register_tutor.php' class='form-box' method='POST'>
 	<a class='cancel' onClick='closeDialog()'>&times</a>
 	<h3 align='center'>REGISTER NEW TUTOR</h3>";
 
-	$page2=
+	$page2 =
 	"<input  name='tutor_name'  placeholder='Enter tutor&apos;s name' pattern='[a-zA-Z ]{1,}' class='finput' type='text' required></input>
 	<input  value='DONE' type='submit'></input>
 	</form>
@@ -125,7 +125,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	$menu = "";
 	$field = "";
-	for($i=0; $i<5; $i++)
+	for($i = 0; $i < 5; $i++)
 	{
 
 		if($i == 0)
@@ -143,9 +143,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 		$menu = "<select name='".$field."_menu' form='add_tutor' required>";
 
-//building select menus
+		// building select menus
 		$sql = "SELECT ".$field." FROM ".$field."_info";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
@@ -162,7 +162,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 
     }//for loop
-print($page1.$body.$all_menu.$page2);
+    print($page1.$body.$all_menu.$page2);
 
 }
 else

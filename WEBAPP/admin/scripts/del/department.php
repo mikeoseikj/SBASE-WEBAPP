@@ -3,8 +3,6 @@
 session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
-
-
 	$page1 =
 	"
 	<html>
@@ -118,12 +116,10 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	";
 	$page2 = "<input  value='proceed' type='submit'></input></form></div></body></html>";
 
-
 	include('../../../login/connection.php');
 	$conn = sql_connect();
 
 	$menu = "<select name='department_menu' form='del' required>";
-
 	$sql = "SELECT department FROM department_info";
 	$results = mysqli_query($conn,$sql);
 
@@ -135,10 +131,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			$menu = $menu."<option value='".$row["department"]."'>".$row["department"]."</option>";
 		}
 		$menu = $menu."</select>";
-
-
 	}
-
 
 	print($page1.$menu.$page2);
 

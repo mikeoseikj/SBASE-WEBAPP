@@ -5,14 +5,14 @@ session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true)
 {
 
-//logout tutors after 1 hour
+	//logout tutors after 1 hour
 	if((time()-$_SESSION["timestamp"]) > 3600 && strlen($_SESSION["username"]) == 14)
 	{
 		print("<script>alert('session timeout');document.location.href='../logout.php'</script>");
 		exit;
 	}
 
-//logout students after 5 minutes
+	//logout students after 5 minutes
 	if((time()-$_SESSION["timestamp"]) > 300 && strlen($_SESSION["username"]) == 12)
 	{
 		print("<script>alert('session timeout');document.location.href='../logout.php'</script>");

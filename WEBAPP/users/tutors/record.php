@@ -1,30 +1,24 @@
 <?php
 
 session_start();
-
-
 if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true && $_SESSION["user"] == "tutor")
 {
 
     include('../../login/connection.php');
     include('../../login/func.php');
 	
-	$form = sanitize_sql_input($_POST["form"],"/[^a-zA-Z0-9\-_() ]/");
-	$track = sanitize_sql_input($_POST["track"],"/[^a-zA-Z0-9\-_() ]/");
-	$department = sanitize_sql_input($_POST["department"],"/[^a-zA-Z0-9\-_() ]/");
-	$class = sanitize_sql_input($_POST["class"],"/[^a-zA-Z0-9\-_() ]/");
-	$subject = sanitize_sql_input($_POST["subject"],"/[^a-zA-Z0-9\-_() ]/");
-	$exam = sanitize_sql_input($_POST["exam"],"/[^a-zA-Z0-9\-_() ]/");
-
-
-
+	$form = sanitize_sql_input($_POST["form"], "/[^a-zA-Z0-9\-_() ]/");
+	$track = sanitize_sql_input($_POST["track"], "/[^a-zA-Z0-9\-_() ]/");
+	$department = sanitize_sql_input($_POST["department"], "/[^a-zA-Z0-9\-_() ]/");
+	$class = sanitize_sql_input($_POST["class"], "/[^a-zA-Z0-9\-_() ]/");
+	$subject = sanitize_sql_input($_POST["subject"], "/[^a-zA-Z0-9\-_() ]/");
+	$exam = sanitize_sql_input($_POST["exam"], "/[^a-zA-Z0-9\-_() ]/");
 
 	if(empty($form) || empty($track) || empty($department) || empty($class) || empty($subject) || empty($exam))
 	{
 		print("<script>alert('An empty field was provided');document.location.href='page.php'</script>");
 		exit;
 	}
-
 
 	$class_percentage = $_POST["class_percentage"];
 	$exam_percentage = $_POST["exam_percentage"];
@@ -43,8 +37,7 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 		exit;
 	}
 
-
-//referring to student usernames
+	//referring to student usernames
 	for($i = 0; $i < count($usernames); $i++)
 	{
 		$usernames[$i] = sanitize_sql_input($usernames[$i], "/[^a-zA-Z0-9.]/");
@@ -55,7 +48,7 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 		}
 	}
 
-	for($i=0;$i< count($classmarks); $i++)
+	for($i = 0;$i < count($classmarks); $i++)
 	{
 		if(is_numeric($classmarks[$i]) == false)
 		{
@@ -81,14 +74,12 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 
 	
 	$conn = sql_connect();
-
 	for($i = 0;$i < count($usernames); $i++)
 	{
 		$sql = "SELECT * FROM student_results WHERE subjectname='".$subject."' AND username='".$usernames[$i]."' AND exam='".$exam."'";
+		$results = mysqli_query($conn, $sql);
 
-		$results = mysqli_query($conn,$sql);
-
-//update the marks if they already exist
+		//update the marks if they already exist
 		if(mysqli_num_rows($results) > 0)
 		{
 			$cscore = ($classmarks[$i] * ((float)$class_percentage / 100));
@@ -97,16 +88,14 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 
 
 			$sql = "UPDATE student_results SET classmarks='".$cscore."' , exammarks='".$escore."' , totalmarks='".$tscore."' WHERE subjectname='".$subject."' AND username='".$usernames[$i]."' AND exam='".$exam."'";
-
-			$results = mysqli_query($conn,$sql);
+			$results = mysqli_query($conn, $sql);
 			if(! $results)
 			{
 				print("<script>alert('marks update error');document.location.href='page.php'</script>");
 				exit;
 			}
 
-
-//calculate overrall marks (update)
+			//calculate overrall marks (update)
 			$sql = "SELECT * FROM student_overrall_marks WHERE username='".$usernames[$i]."' AND exam='".$exam."'";
 			$results = mysqli_query($conn,$sql);
 
@@ -120,7 +109,7 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 					$marks += $rows["totalmarks"];
 
 				$sql = "UPDATE student_overrall_marks SET marks='".$marks."' WHERE  username='".$usernames[$i]."' AND exam='".$exam."'";
-				$results=mysqli_query($conn,$sql);
+				$results = mysqli_query($conn,$sql);
 				if(! $results)
 				{
 					print("<script>alert('overrall marks update error');document.location.href='page.php'</script>");
@@ -129,18 +118,16 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 			}
 			else
 			{
-//calculate overrall marks (insert)
+				//calculate overrall marks (insert)
 				$marks = 0;
 				$sql = "SELECT * FROM student_results WHERE username='".$usernames[$i]."' AND exam='".$exam."'";
-
 				$results = mysqli_query($conn,$sql);
 
 				while($rows = mysqli_fetch_assoc($results))
 					$marks += $rows["totalmarks"];
 
-
 				$sql = "INSERT INTO student_overrall_marks (username,exam,marks,form,track,department,class) VALUES('".$usernames[$i]."','".$exam."','".$marks."','".$form."','".$track."','".$department."','".$class."')";
-				$results = mysqli_query($conn,$sql);
+				$results = mysqli_query($conn, $sql);
 				if(! $results)
 				{
 					print("<script>alert('overrall marks insertion error');document.location.href='page.php'</script>");
@@ -149,8 +136,7 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 			}
 
 		}
-
-//insert they dont exist
+		//insert they dont exist
 		else
 		{
 
@@ -159,7 +145,7 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 			$tscore = $cscore + $escore;
 
 			$sql = "INSERT INTO student_results(subjectname,username,exam,classmarks,exammarks,totalmarks,form,track,department,class) VALUES('".$subject."','".$usernames[$i]."','".$exam."','".$cscore."','".$escore."','".$tscore."','".$form."','".$track."','".$department."','".$class."')";
-			$results = mysqli_query($conn,$sql);
+			$results = mysqli_query($conn, $sql);
 
 			if(! $results)
 			{
@@ -167,7 +153,7 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 				exit;
 			}
 
-//calculate overrall marks (update)
+			//calculate overrall marks (update)
 			$sql = "SELECT * FROM student_overrall_marks WHERE username='".$usernames[$i]."' AND exam='".$exam."'";
 			$results = mysqli_query($conn,$sql);
 
@@ -175,7 +161,7 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 			{
 				$marks = 0;
 				$sql = "SELECT * FROM student_results WHERE username='".$usernames[$i]."' AND exam='".$exam."'";
-				$results = mysqli_query($conn,$sql);
+				$results = mysqli_query($conn, $sql);
 
 				while($rows = mysqli_fetch_assoc($results))
 					$marks += $rows["totalmarks"];
@@ -190,18 +176,17 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 			}
 			else
 			{
-//calculate overrall marks (insert)
+				//calculate overrall marks (insert)
 				$marks = 0;
 				$sql = "SELECT * FROM student_results WHERE username='".$usernames[$i]."' AND exam='".$exam."'";
 
-				$results = mysqli_query($conn,$sql);
+				$results = mysqli_query($conn, $sql);
 
 				while($rows = mysqli_fetch_assoc($results))
 					$marks += $rows["totalmarks"];
 
-
 				$sql = "INSERT INTO student_overrall_marks (username,exam,marks,form,track,department,class) VALUES('".$usernames[$i]."','".$exam."','".$marks."','".$form."','".$track."','".$department."','".$class."')";
-				$results = mysqli_query($conn,$sql);
+				$results = mysqli_query($conn, $sql);
 				if(! $results)
 				{
 					print("<script>alert('overrall marks insertion error');document.location.href='page.php'</script>");
@@ -211,9 +196,8 @@ if(isset($_POST["submit"]) && isset($_SESSION["username"]) && isset($_SESSION["p
 
 		}
 
-}//for loop
-
-header("location: page.php");
+	}//for loop
+	header("location: page.php");
 }
 else
 {

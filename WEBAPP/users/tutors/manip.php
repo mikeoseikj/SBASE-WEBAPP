@@ -1,17 +1,15 @@
 <?php
 
-
 session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true && $_SESSION["user"] == "tutor")
 {
 
-//logout users out after 6 hours
+	//logout users out after 6 hours
 	if((time()-$_SESSION["timestamp"]) > 21600)
 	{
 		print("<script>alert('session timeout');document.location.href='../../login/logout.php'</script>");
 		exit;
 	}
-
 
 	$css =
 	"
@@ -163,15 +161,11 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	include('../../login/connection.php');
 	include('../../login/func.php');
 
-	$form = sanitize_sql_input($_GET["form"],"/[^a-zA-Z0-9\-_() ]/");
-	$track = sanitize_sql_input($_GET["track"],"/[^a-zA-Z0-9\-_() ]/");
-	$department = sanitize_sql_input($_GET["department"],"/[^a-zA-Z0-9\-_() ]/");
-	$class = sanitize_sql_input($_GET["class"],"/[^a-zA-Z0-9\-_() ]/");
-	$subject = sanitize_sql_input($_GET["subject"],"/[^a-zA-Z0-9\-_() ]/");
-
-
-
-
+	$form = sanitize_sql_input($_GET["form"], "/[^a-zA-Z0-9\-_() ]/");
+	$track = sanitize_sql_input($_GET["track"], "/[^a-zA-Z0-9\-_() ]/");
+	$department = sanitize_sql_input($_GET["department"], "/[^a-zA-Z0-9\-_() ]/");
+	$class = sanitize_sql_input($_GET["class"], "/[^a-zA-Z0-9\-_() ]/");
+	$subject = sanitize_sql_input($_GET["subject"], "/[^a-zA-Z0-9\-_() ]/");
 
 	if(empty($form) || empty($track) || empty($department) || empty($class) ||   empty($subject))
 	{
@@ -180,26 +174,23 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	}
 
 	$username = $_SESSION["username"];
-	
-	$conn=sql_connect();
-
+	$conn = sql_connect();
 	$exam = "";
 
 	if(isset($_GET["exam"]))
 	{
-		$exam = sanitize_sql_input($_GET["exam"],"/[^a-zA-Z0-9\-_() ]/");
+		$exam = sanitize_sql_input($_GET["exam"], "/[^a-zA-Z0-9\-_() ]/");
 	}
 	else
 	{
 		$sql = "SELECT * FROM exam_info ORDER BY id DESC LIMIT 1";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
 			$rows = mysqli_fetch_assoc($results);
 			$exam = $rows["exam"];
 		}
-
 		else
 		{
 			print("<script>alert('No exam');document.location.href='page.php'</script>");
@@ -209,18 +200,16 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 
 
 	$sql = "SELECT * FROM student_subject_info WHERE subjectname='".$subject."' AND form='".$form."' AND track='".$track."' AND department='".$department."' AND class='".$class."'";
+	$results = mysqli_query($conn, $sql);
 
-	$results = mysqli_query($conn,$sql);
 	if(mysqli_num_rows($results) > 0)
 	{
 		$sql = "SELECT * FROM exam_info";
-		$x= mysqli_query($conn, $sql);
+		$x = mysqli_query($conn, $sql);
 		$exam_links = "";
 
 		while($y = mysqli_fetch_assoc($x))
 			$exam_links .= "<a href='manip.php?form=".$form."&track=".$track."&department=".$department."&class=".$class."&subject=".$subject."&exam=".$y["exam"]."  '><i style='font-size: 16px; color: #88ffff;' class='fas fa-boxes'></i> ".$y["exam"]."</a><br />";
-
-
 
 		print(
 			"
@@ -253,18 +242,15 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 			<a style='float: right; background-color: #ddd;color:#101010; font-family:monospace;text-decoration:none; border: solid 1px #88ffff; border-radius: 2px;'
 			href='vresults.php?form=".$form."&track=".$track."
 			&department=".$department."&class=".$class."&subject=".$subject."&exam=".$exam."' >
-			view ranks</a>
-");//a GET request is built dynamically and is sent to the vresults php file
+			view ranks</a>");	//a GET request is built dynamically and is sent to the vresults php file
 
 		print("<table width='100%'>
 			<tr><th>Name</th><th>Username</th><th>Class marks</th><th>Exam marks</th></tr>");
 		print("<form id='sheet' action='record.php' method='POST'>");
 
-
 		while($rows = mysqli_fetch_assoc($results))
 		{
-
-//checking if students marks have already been filled; if true fill current input fields with marks 
+			// checking if students marks have already been filled; if true fill current input fields with marks 
 			$cmark = 0;
 			$emark = 0;
 			$sql = "SELECT * FROM student_results WHERE subjectname='".$subject."' AND username='".$rows["username"]."' AND exam='".$exam."'";
@@ -292,24 +278,20 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 
 		print("</table><br /><input type='submit' name='submit' value='RECORD'></input></form>");
 
-//to help submit form,track etc
+		// to help submit form,track etc
 		print("<input style='display:none' form='sheet' value='".$form."' name='form'></input>");
 		print("<input style='display:none' form='sheet' value='".$track."' name='track'></input>");
 		print("<input style='display:none' form='sheet' value='".$department."' name='department'></input>");
 		print("<input style='display:none' form='sheet' value='".$class."' name='class'></input>");
 		print("<input style='display:none' form='sheet' value='".$exam."' name='exam'></input>");
 
-
 	}
-
 	else
 	{
 		print("<h1 align='center' style='font-family: monospace; margin-top: 10%;color: #88ffff' >NO REGISTERED STUDENTS</h1>");
 	}
 
 }
-
-
 else
 {
 	header("location: page.php");

@@ -5,17 +5,14 @@ include('connection.php');
 
 sleep(3);
 
-//to mitigate sql injection
-$username = sanitize_sql_input($_GET["username"],"/[^a-zA-Z0-9.]/");
-$password = sanitize_sql_input($_GET["password"],"/[^a-zA-Z0-9.\-_()+*#@%$]/");
-
-
+// to mitigate sql injection
+$username = sanitize_sql_input($_GET["username"], "/[^a-zA-Z0-9.]/");
+$password = sanitize_sql_input($_GET["password"], "/[^a-zA-Z0-9.\-_()+*#@%$]/");
 $conn = sql_connect();
 
-
-//check for first time logins and if account is active
+// check for first time logins and if account is active
 $sql = "SELECT * FROM student_login_info WHERE username='".$username."' AND password='".$password."' AND status='1'";
-$results = mysqli_query($conn,$sql);
+$results = mysqli_query($conn, $sql);
 
 if(mysqli_num_rows($results)  > 0)
 {
@@ -26,12 +23,12 @@ if(mysqli_num_rows($results)  > 0)
 	exit;
 }
 
-//if not first time login verify credential
+// if not first time login verify credential
 else
 {
-//if not in database
+	// if not in database
 	$sql = "SELECT * FROM student_slogin_info WHERE username='".$username."' AND status='1'";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 	if(mysqli_num_rows($results) < 1)
 	{
 		echo("{
@@ -41,9 +38,9 @@ else
 		exit;
 	}
 
-//wrong password
 	while($rows = mysqli_fetch_assoc($results))
-		if(password_verify($password,$rows["password"]) == false)
+	{
+		if(password_verify($password, $rows["password"]) == false)
 		{
 			echo("{
 				\"first_login\":false,
@@ -53,43 +50,47 @@ else
 			exit;
 		}
 
-//if the login credentials are correct and the account is active
+		// if the login credentials are correct and the account is active
 		else
 		{
-//get name of user
+			// get name of user
 			$sql = "SELECT * FROM student_subject_info WHERE username='".$username."' LIMIT 1";
-			$results = mysqli_query($conn,$sql);
+			$results = mysqli_query($conn, $sql);
 			while($rows = mysqli_fetch_assoc($results))
 				$name = $rows["studentname"];
 
 			$count = 0;
 
-//get exam names
+			//get exam names
 			$sql = "SELECT * FROM student_overrall_marks WHERE username='".$username."'";
 			$exams = "[";
-			$results = mysqli_query($conn,$sql);
+			$results = mysqli_query($conn, $sql);
 			$count = mysqli_num_rows($results);
 
 			if(mysqli_num_rows($results) > 0)
 			{
 				while($rows = mysqli_fetch_assoc($results))
 				{
-					$exams=$exams."\"".$rows["exam"]."\",";     //manually making a json array value eg. ["car","motor","bike"]
+					$exams = $exams."\"".$rows["exam"]."\",";     // manually making a json array value eg. ["car","motor","bike"]
 				}
+				// replace the last character ',' with ']'
+				$exams[-1] = ']';
 			}
-    		//replace the last character ',' with ']'
-			$exams[-1]=']';
+			else
+			{
+				$exams .= "]";
+			}
 
-			//XML for users after login
+			// JSON for users after login
 			echo("{
-				\"first_login\":false,
 				\"success\":true,
+				\"first_login\":false,
 				\"student_name\":\"".$name."\",
 				\"exams\":".$exams."
 				}");
 
-
 		}
+	}
 }
 
 ?>

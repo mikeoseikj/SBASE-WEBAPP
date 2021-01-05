@@ -103,7 +103,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	</head>
 	<body>";
 
-//form contains <select> to allow admin to register tutors with various fields
+	// form contains <select> to allow admin to register tutors with various fields
 	$body = "<div class='container' id='appear'>
 	<form id='update_student' action='update_student.php' class='form-box' method='POST'>
 	<a class='cancel' onClick='closeDialog()'>&times</a>
@@ -121,8 +121,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	include('../../../login/connection.php');
 	$conn = sql_connect();
-
-
 	$menu1 = "<label style='color: #55ffff';> [CURRENT DATA ]: </label>";
 	$menu2 = "<label style='color: #55ffff';> [UPDATE DATA]: </label>";
 
@@ -142,8 +140,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			$field = "subject";
 
 
-
-
 		if($field == "subject")
 		{
 			$menu2 .= "<select  name='".$field."_menu[]' form='update_student' multiple required>";
@@ -153,13 +149,13 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			$menu1 .= "<select name='".$field."_old' form='update_student' required>";
 			$menu2 .= "<select name='".$field."_new' form='update_student' required>";
 		}
-//building select menus
+
+		// building select menus
 		$sql = "SELECT ".$field." FROM ".$field."_info";
 		$results = mysqli_query($conn,$sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
-
 			while($row = mysqli_fetch_assoc($results))
 			{
 				if($field == "subject")
@@ -178,14 +174,11 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 		}
 
-}//for loop
+	}//for loop
 
-
-$menu1 .= "<br /><br /><br />";
-$menu2 .= "<h4 style='color: white; float: right;'>press and hold CTRL to select multiple subjects</h4>";
-
-print($page1.$body.$menu1.$menu2.$page2);
-
+	$menu1 .= "<br /><br /><br />";
+	$menu2 .= "<h4 style='color: white; float: right;'>press and hold CTRL to select multiple subjects</h4>";
+	print($page1.$body.$menu1.$menu2.$page2);
 }
 else
 {

@@ -8,16 +8,14 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	include('../../../login/connection.php');
 	include('../../../login/func.php');
 
-	$form = sanitize_sql_input($_POST["form_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$track = sanitize_sql_input($_POST["track_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$department = sanitize_sql_input($_POST["department_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$class = sanitize_sql_input($_POST["class_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$subject = sanitize_sql_input($_POST["subject_menu"],"/[^a-zA-Z0-9\-_() ]/");
+	$form = sanitize_sql_input($_POST["form_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$track = sanitize_sql_input($_POST["track_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$department = sanitize_sql_input($_POST["department_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$class = sanitize_sql_input($_POST["class_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$subject = sanitize_sql_input($_POST["subject_menu"], "/[^a-zA-Z0-9\-_() ]/");
 
-	$username = sanitize_sql_input($_POST["username"],"/[^a-zA-Z0-9.]/");
+	$username = sanitize_sql_input($_POST["username"], "/[^a-zA-Z0-9.]/");
 	$status = $_POST["status"];
-
-
 
 	if(empty($form) || empty($track) || empty($department) || empty($class) || empty($subject) ||   empty($status) )
 	{
@@ -26,8 +24,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 
 	$conn = sql_connect();
-
-
 	if($status == "active")
 		$state = 1;
 	else if($status == "inactive")
@@ -37,7 +33,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		print("<script>alert('not allowed');</script>");
 		exit;
 	}
-
 
 	if(empty($username))
 	{
@@ -54,9 +49,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		while($rows = mysqli_fetch_assoc($results))
 		{
 			$sql = "UPDATE tutor_login_info SET status='".$state."' WHERE username='".$rows["username"]."'";
-			mysqli_query($conn,$sql);
+			mysqli_query($conn, $sql);
 			$sql = "UPDATE tutor_slogin_info SET status='".$state."' WHERE username='".$rows["username"]."'";
-			mysqli_query($conn,$sql);
+			mysqli_query($conn, $sql);
 		}
 
 	}
@@ -64,18 +59,17 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	else
 	{
 		$sql = "SELECT * FROM tutor_access_info WHERE username='".$username."'";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 		if(mysqli_num_rows($results) < 1 )
 		{
 			print("<script>alert('username does not exist');</script>");
 			exit;
 		}
 
-
 		$sql = "UPDATE tutor_login_info SET status='".$state."' WHERE username='".$username."'";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 		$sql = "UPDATE tutor_slogin_info SET status='".$state."' WHERE username='".$username."'";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 	}
 

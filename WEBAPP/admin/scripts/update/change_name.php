@@ -7,11 +7,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	include('../../../login/connection.php');
 	include('../../../login/func.php');
 
-	$realname = sanitize_sql_input($_POST["realname"],"/[^a-zA-Z ]/");
-	$username = sanitize_sql_input($_POST["username"],"/[^a-zA-Z0-9.]/");
-
-	
-
+	$realname = sanitize_sql_input($_POST["realname"], "/[^a-zA-Z ]/");
+	$username = sanitize_sql_input($_POST["username"], "/[^a-zA-Z0-9.]/");
 
 	if(empty($realname) || empty($username))
 	{

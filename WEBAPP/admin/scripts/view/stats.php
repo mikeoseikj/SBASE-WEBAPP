@@ -47,11 +47,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	include('../../../login/connection.php');
 	$conn = sql_connect();
 
-
 	for($i = 0;$i < 5; $i++)
 	{
-
-
 		if($i == 0)
 		{
 			$field = "form";
@@ -80,9 +77,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		}
 		print("<table width='100%'><tr><th>".$field."</th><th>Tutors</th><th>Students</th></tr>");
 
-
 		$sql = "SELECT * FROM ".$field."_info";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
@@ -91,7 +87,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 				print("<tr><td><button>".$rows[$field]."</button></td>");
 
 				$sql = "SELECT DISTINCT username FROM tutor_access_info WHERE ".$field."='".$rows[$field]."'";
-				$ret = mysqli_query($conn,$sql);
+				$ret = mysqli_query($conn, $sql);
 				print("<td><button>".mysqli_num_rows($ret)."</button></td>");
 
 				$sql = "SELECT DISTINCT username FROM student_subject_info WHERE ".$field."='".$rows[$field]."'";
@@ -99,9 +95,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 				if($field == "subject")
 					$sql = "SELECT DISTINCT username FROM student_subject_info WHERE ".$field."name='".$rows[$field]."'";
 
-
-				$ret = mysqli_query($conn,$sql);
-
+				$ret = mysqli_query($conn, $sql);
 				print("<td><button>".mysqli_num_rows($ret)."</button></td></tr>");
 			}
 
@@ -110,33 +104,32 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	}//for loop
 
-
 	print("<h2>ACCOUNTS STATES</h2>");
 
 	//unaccessed accounts
 	print("<table width='100%'><tr><th>Unused</th><th>Tutors</th><th>Students</th></tr>");
 	$sql = "SELECT * FROM tutor_login_info";
-	$x = mysqli_query($conn,$sql);
+	$x = mysqli_query($conn, $sql);
 	$sql = "SELECT * FROM student_login_info";
-	$y = mysqli_query($conn,$sql);
+	$y = mysqli_query($conn, $sql);
 	print("<tr><td><button>unaccessed</button></td>");
 	print("<td><button>".mysqli_num_rows($x)."</button></td>");
 	print("<td><button>".mysqli_num_rows($y)."</button></td></tr>");
 
 	//active unaccessed accounts
 	$sql = "SELECT * FROM tutor_login_info WHERE status='1'";
-	$x = mysqli_query($conn,$sql);
+	$x = mysqli_query($conn, $sql);
 	$sql = "SELECT * FROM student_login_info WHERE status='1'";
-	$y = mysqli_query($conn,$sql);
+	$y = mysqli_query($conn, $sql);
 	print("<tr><td><button>active</button></td>");
 	print("<td><button>".mysqli_num_rows($x)."</button></td>");
 	print("<td><button>".mysqli_num_rows($y)."</button></td></tr>");
 
 	//inactive unaccessed accounts
 	$sql = "SELECT * FROM tutor_login_info WHERE status='0'";
-	$x = mysqli_query($conn,$sql);
+	$x = mysqli_query($conn, $sql);
 	$sql = "SELECT * FROM student_login_info WHERE status='0'";
-	$y = mysqli_query($conn,$sql);
+	$y = mysqli_query($conn, $sql);
 	print("<tr><td><button>inactive</button></td>");
 	print("<td><button>".mysqli_num_rows($x)."</button></td>");
 	print("<td><button>".mysqli_num_rows($y)."</button></td></tr></table>");
@@ -145,31 +138,30 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	//accessed accounts
 	print("<table width='100%'><tr><th>Used</th><th>Tutors</th><th>Students</th></tr>");
 	$sql = "SELECT * FROM tutor_slogin_info";
-	$x = mysqli_query($conn,$sql);
+	$x = mysqli_query($conn, $sql);
 	$sql = "SELECT * FROM student_slogin_info";
-	$y = mysqli_query($conn,$sql);
+	$y = mysqli_query($conn, $sql);
 	print("<tr><td><button>accessed</button></td>");
 	print("<td><button>".mysqli_num_rows($x)."</button></td>");
 	print("<td><button>".mysqli_num_rows($y)."</button></td></tr>");
 
 	//active accessed accounts
 	$sql = "SELECT * FROM tutor_slogin_info WHERE status='1'";
-	$x = mysqli_query($conn,$sql);
+	$x = mysqli_query($conn, $sql);
 	$sql = "SELECT * FROM student_slogin_info WHERE status='1'";
-	$y = mysqli_query($conn,$sql);
+	$y = mysqli_query($conn, $sql);
 	print("<tr><td><button>active</button></td>");
 	print("<td><button>".mysqli_num_rows($x)."</button></td>");
 	print("<td><button>".mysqli_num_rows($y)."</button></td></tr>");
 
 	//inactive accessed accounts
 	$sql = "SELECT * FROM tutor_slogin_info WHERE status='0'";
-	$x = mysqli_query($conn,$sql);
+	$x = mysqli_query($conn, $sql);
 	$sql = "SELECT * FROM student_slogin_info WHERE status='0'";
-	$y = mysqli_query($conn,$sql);
+	$y = mysqli_query($conn, $sql);
 	print("<tr><td><button>inactive</button></td>");
 	print("<td><button>".mysqli_num_rows($x)."</button></td>");
 	print("<td><button>".mysqli_num_rows($y)."</button></td></tr></table>");
-
 	print("<br /><br /><br /><br />");
 
 }

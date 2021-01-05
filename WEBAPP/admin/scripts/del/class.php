@@ -120,12 +120,10 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	include('../../../login/connection.php');
 	$conn = sql_connect();
-
-
 	$menu = "<select name='class_menu' form='del' required>";
 
 	$sql = "SELECT class FROM class_info";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -135,8 +133,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		}
 		$menu = $menu."</select>";
 	}
-
-
 	print($page1.$menu.$page2);
 
 }

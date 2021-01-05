@@ -35,7 +35,7 @@ After logging in as admin you can start configurations (easy). Set all config in
 
 User accounts(tutors and students) permanent passwords must be 8 or more characters
 
-Change ip address(192.168.43.127) in the SBASE android app to the ip address of your choice
+Change ip address(192.168.43.219) in the SBASE android app(NetworkUtility.java file) to the ip address of your choice
 
 
 

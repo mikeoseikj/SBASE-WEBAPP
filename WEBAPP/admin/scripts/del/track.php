@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"]==true &&  $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
 
 	$page1=
@@ -119,28 +119,21 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	";
 	$page2 = "<input  value='proceed' type='submit'></input></form></div></body></html>";
 
-
 	include('../../../login/connection.php');
 	$conn = sql_connect();
-
 	$menu = "<select name='track_menu' form='del' required>";
 
 	$sql = "SELECT track FROM track_info";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
-
 		while($row = mysqli_fetch_assoc($results))
 		{
 			$menu = $menu."<option value='".$row["track"]."'>".$row["track"]."</option>";
 		}
 		$menu = $menu."</select>";
-
-
 	}
-
-
 	print($page1.$menu.$page2);
 
 }

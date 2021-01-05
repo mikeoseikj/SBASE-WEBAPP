@@ -65,10 +65,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	include('../../../login/connection.php');
 
 	$conn = sql_connect();
-
 	$sql = "SELECT form FROM form_info";
-
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -88,8 +86,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 
 	$sql = "SELECT track FROM track_info";
-
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -108,8 +105,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 
 	$sql = "SELECT department FROM department_info";
-
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -122,16 +118,14 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			}
 		}
 	}
-
 	else
 	{
 		print("<h3>NO DEPARTMENT INFORMATION IN DATABASE<h3><br />");
 	}
 
-//reading all classes from database
+	// reading all classes from database
 	$sql = "SELECT class FROM class_info";
-
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -145,16 +139,14 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			}
 		}
 	}
-
 	else
 	{
 		print("<h3>NO CLASS INFORMATION IN DATABASE<h3><br />");
 	}
 
-//reading all subjects from database
+	//reading all subjects from database
 	$sql = "SELECT subject FROM subject_info";
-
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -169,22 +161,19 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			}
 		}
 	}
-
 	else
 	{
 		print("<h3>NO SUBJECT INFORMATION IN DATABASE<h3><br />");
 	}
 
 
-//reading all exams from database
+	// reading all exams from database
 	$sql = "SELECT exam FROM exam_info";
-
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
 		print("<h2 align='center'>".mysqli_num_rows($results)." EXAM(S) IN DATABASE</h2>");
-
 
 		while($row = mysqli_fetch_assoc($results))
 		{
@@ -194,7 +183,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			}
 		}
 	}
-
 	else
 	{
 		print("<h3>NO EXAM INFORMATION IN DATABASE<h3><br />");

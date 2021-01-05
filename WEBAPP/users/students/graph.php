@@ -6,7 +6,7 @@ session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true && $_SESSION["user"] == "student")
 {
 
-//logout users out after 15 minutes
+	//logout users out after 15 minutes
 	if((time()-$_SESSION["timestamp"]) > 900)
 	{
 		print("<script>alert('session timeout');document.location.href='../../login/logout.php'</script>");
@@ -20,7 +20,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 
 	$username = $_SESSION["username"];
 
-//get exam names
+	//get exam names
 	$sql = "SELECT exam FROM student_overrall_marks WHERE username='".$username."'";
 	$exams = array();
 	$results = mysqli_query($conn,$sql);
@@ -29,19 +29,16 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	{
 		while($rows = mysqli_fetch_assoc($results))
 		{
-			array_push($exams,$rows["exam"]);
+			array_push($exams, $rows["exam"]);
 		}
 	}
-	else
-	{
-	}
 
-//get values to fill sections of piechart
+	//get values to fill sections of piechart
 	$chart = "";
-	for($i=0; $i < count($exams); $i++)
+	for($i = 0; $i < count($exams); $i++)
 	{
 		$sql = "SELECT * FROM student_overrall_marks WHERE username='".$username."' AND exam='".$exams[$i]."'";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 		if(mysqli_num_rows($results) > 0)
 		{
 			while($x = mysqli_fetch_assoc($results))

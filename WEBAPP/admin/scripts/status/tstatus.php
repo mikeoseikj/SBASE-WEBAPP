@@ -127,10 +127,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	</html>
 	";
 
-
 	include('../../../login/connection.php');
 	$conn = sql_connect();
-
 	$all_menu = "";
 
 	$menu = "";
@@ -149,27 +147,21 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		elseif($i == 4)
 			$field = "subject";
 
-
-
 		$menu = "<select name='".$field."_menu' form='tutor_status' required>";
 
-//building select menus
+		// building select menus
 		$sql = "SELECT ".$field." FROM ".$field."_info";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
-
 			while($row = mysqli_fetch_assoc($results))
 			{
 				$menu = $menu."<option value='".$row[$field]."'>".$row[$field]."</option>";
 			}
 			$menu = $menu."</select>";
-
-
 			$all_menu = $all_menu.$menu;
 		}
-
 
     }//for loop
 	print($page1.$body.$all_menu.$page2);

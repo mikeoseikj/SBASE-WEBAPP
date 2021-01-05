@@ -3,8 +3,6 @@
 session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
-
-
 	$page1 =
 	"
 	<html>
@@ -137,17 +135,12 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	if(mysqli_num_rows($results) > 0)
 	{
-
 		while($row = mysqli_fetch_assoc($results))
 		{
 			$menu = $menu."<option value='".$row["subject"]."'>".$row["subject"]."</option>";
 		}
 		$menu = $menu."</select>";
-
-
 	}
-
-
 	print($page1.$menu.$page2);
 
 }

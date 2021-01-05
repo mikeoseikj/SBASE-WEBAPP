@@ -5,7 +5,7 @@ session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true && $_SESSION["user"] == "student")
 {
 
-//logout users out after 15 minutes
+	//logout users out after 15 minutes
 	if((time()-$_SESSION["timestamp"]) > 900)
 	{
 		print("<script>alert('session timeout');document.location.href='../../login/logout.php'</script>");
@@ -17,8 +17,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 
 
 	$conn = sql_connect();
-
-
 	$NO_EXAM_BANNER = "";
 
 	$table = "";
@@ -26,10 +24,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	$totalmarks = 0;
 	$username = $_SESSION["username"];
 
-	$exam = sanitize_sql_input($_GET["exam"],"/[^a-zA-Z0-9\-_() ]/");
-
-        
-	if(empty($exam))	//immediately after login
+	$exam = sanitize_sql_input($_GET["exam"], "/[^a-zA-Z0-9\-_() ]/");
+	if(empty($exam))	// immediately after login
 	{
 		$exam = "";
 		$sql = "SELECT exam FROM student_overrall_marks WHERE username='".$username."'";
@@ -43,13 +39,12 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 		{
 			//getting student name 
 			$sql = "SELECT studentname FROM student_subject_info WHERE username='".$username."' LIMIT 1";
-			$x = mysqli_query($conn,$sql);
+			$x = mysqli_query($conn, $sql);
 
 			$y = mysqli_fetch_assoc($x);
 			$name = $y["studentname"];
 
 			$NO_EXAM_BANNER = "<h1 align='center' style='color: #88ffff; font-family: monospace; margin-top: 10%;'>YOU HAVE NO EXAM RECORDED</h1>";
-
 			goto go_label;
 			
 		}
@@ -61,7 +56,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	//get exam names that student is registered for
 	$sql = "SELECT exam FROM student_overrall_marks WHERE username='".$username."'";
 	$exams = array();
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	while($rows = mysqli_fetch_assoc($results))
 		array_push($exams,$rows["exam"]);
@@ -69,7 +64,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 
 	//getting student details eg: form, track etc...
 	$sql = "SELECT * FROM student_overrall_marks WHERE username='".$username."' AND exam='".$exam."'";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 	    
 	$rows = mysqli_fetch_assoc($results);
 	$form = $rows["form"];
@@ -82,7 +77,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	$sql = "SELECT * FROM student_overrall_marks WHERE exam='".$exam."' AND form='".$form."' AND track='".$track."' AND department='".$department."' AND class='".$class."'  ORDER BY marks DESC";
 	$totalmarks = 0;
 	$pos = 1;
-	$x = mysqli_query($conn,$sql);
+	$x = mysqli_query($conn, $sql);
 	while($y = mysqli_fetch_assoc($x))
 	{
 		if($y["username"] == $username)
@@ -92,7 +87,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 		}
 		$pos++;
 	}
-
 
 	//getting form position(rank) 
 	$sql = "SELECT * FROM student_overrall_marks WHERE exam='".$exam."' AND form='".$form."' ORDER BY marks DESC";
@@ -112,7 +106,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 
 	$y = mysqli_fetch_assoc($x);
 	$name = $y["studentname"];
-
 
 	$sql = "SELECT * FROM student_results WHERE username='".$username."' AND exam='".$exam."'";
 	$results = mysqli_query($conn,$sql);
@@ -134,11 +127,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 			$table .= "</table>";
 	}
 
-
-
-
 	$menu = "";
-	for($i=0; $i < count($exams); $i++)
+	for($i = 0; $i < count($exams); $i++)
 	{
 		$menu .= "<a href='results.php?exam=".$exams[$i]."'>".$exams[$i]."</a>";
 	}

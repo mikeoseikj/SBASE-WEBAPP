@@ -2,14 +2,14 @@
 
 session_start();
 print("<body bgcolor='#000000'></body>");
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"]==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
 	//generate username a partially random username eg. userkemim.st
 	function generate_random_student_username()
 	{
 		$characters = "0123456789abcdefghijklmnopqrstuvwxyz";
 		$username = "user";
-		for($i=0; $i < 5; $i++) 
+		for($i = 0; $i < 5; $i++) 
 			$username .= $characters[rand(0, strlen($characters)-1)];
 
 		$username .= ".st";
@@ -21,7 +21,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	{
 		$characters = "023456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		$password = "";
-		for($i=0;$i < 8; $i++) 
+		for($i = 0;$i < 8; $i++) 
 			$password .= $characters[rand(0, strlen($characters)-1)];
 
 		return $password;
@@ -30,8 +30,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	include('../../../login/func.php');
 	include('../../../login/connection.php');
-
-
 
 
 	$form = sanitize_sql_input($_POST["form_menu"],"/[^a-zA-Z0-9\-_() ]/");
@@ -50,8 +48,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	
 	$conn = sql_connect();
 
-//ensuring that no subject field is empty
-	for($i = 0;$i < count($subjects); $i++)
+	// ensuring that no subject field is empty
+	for($i = 0; $i < count($subjects); $i++)
 	{
 		$subjects[$i] = sanitize_sql_input($subjects[$i], "/[^a-zA-Z0-9\-_() ]/");
 		if(empty($subjects[$i]))
@@ -60,7 +58,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	$username_buffer = array();
 
-//ensuring that no student name is empty
+	// ensuring that no student name is empty
 	for($i = 0; $i < count($name_list); $i++) 
 	{
 		$name_list[$i] = sanitize_sql_input($name_list[$i], "/[^a-zA-Z ]/");
@@ -72,7 +70,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 	
 	
-	for($i  = 0; $i < count($name_list); $i++)
+	for($i = 0; $i < count($name_list); $i++)
 	{
 		do    //to ensure that generated username doesn't already exist in data
 		{
@@ -93,9 +91,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		array_push($username_buffer, $username);
 
 	}
-
-
-
 
 	for($i = 0; $i < count($username_buffer); $i++)
 	{

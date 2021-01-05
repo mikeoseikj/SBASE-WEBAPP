@@ -101,7 +101,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	</head>
 	<body>";
 
-//form contains <select> to allow admin to register tutors with various fields
+	// form contains <select> to allow admin to register tutors with various fields
 	$body = "<div class='container' id='appear'>
 	<form id='vstudents' action='vstudents.php' class='form-box' method='POST'>
 	<a class='cancel' onClick='closeDialog()'>&times</a>
@@ -114,17 +114,14 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	</html>
 	";
 
-
 	include('../../../login/connection.php');
 	$conn = sql_connect();
-
 	$all_menu = "";
 
 	$menu = "";
 	$field = "";
 	for($i = 0; $i < 4; $i++)
 	{
-
 		if($i == 0)
 			$field = "form";
 		elseif($i == 1)
@@ -134,26 +131,21 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		elseif($i == 3)
 			$field = "class";
 
-
 		$menu = "<select name='".$field."_menu' form='vstudents' required>";
 
-//building select menus
+		//building select menus
 		$sql = "SELECT ".$field." FROM ".$field."_info";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
-
 			while($row = mysqli_fetch_assoc($results))
 			{
 				$menu = $menu."<option value='".$row[$field]."'>".$row[$field]."</option>";
 			}
 			$menu = $menu."</select>";
-
-
 			$all_menu = $all_menu.$menu;
 		}
-
 
 	}//for loop
 	print($page1.$body.$all_menu.$page2);

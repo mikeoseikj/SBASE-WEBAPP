@@ -4,7 +4,6 @@ session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"]==true)
 {
 
-
 	$page1=
 	"
 	<html>
@@ -131,14 +130,12 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	include('../../../login/connection.php');
 	$conn = sql_connect();
-
 	$all_menu = "";
 
 	$menu = "";
 	$field = "";
 	for($i = 0; $i < 5; $i++)
 	{
-
 		if($i == 0)
 			$field = "form";
 		elseif($i == 1)
@@ -151,29 +148,25 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			$field = "subject";
 
 
-
 		$menu = "<select name='".$field."_menu' form='student_status' required>";
 
-//building select menus
+		// building select menus
 		$sql = "SELECT ".$field." FROM ".$field."_info";
 		$results = mysqli_query($conn,$sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
-
 			while($row = mysqli_fetch_assoc($results))
 			{
 				$menu = $menu."<option value='".$row[$field]."'>".$row[$field]."</option>";
 			}
 			$menu = $menu."</select>";
-
-
 			$all_menu = $all_menu.$menu;
 		}
 
 
-}//for loop
-print($page1.$body.$all_menu.$page2);
+	}//for loop	
+	print($page1.$body.$all_menu.$page2);
 
 }
 else

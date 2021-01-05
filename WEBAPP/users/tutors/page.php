@@ -5,21 +5,20 @@ session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true && $_SESSION["user"] == "tutor")
 {
 
-//logout users out after  6 hours
+	//logout users out after  6 hours
 	if((time()-$_SESSION["timestamp"]) > 21600)
 	{
 		print("<script>alert('session timeout');document.location.href='../../login/logout.php'</script>");
 		exit;
 	}
 
-
 	include('../../login/connection.php');
 	include('../../login/func.php');
 	$conn = sql_connect();
 
-//getting tutor's name
+	//getting tutor's name
 	$sql = "SELECT tutorname FROM tutor_access_info WHERE username='".$_SESSION["username"]."' LIMIT 1";
-	$ret = mysqli_query($conn,$sql);
+	$ret = mysqli_query($conn, $sql);
 	$name = "";
 	while($rows = mysqli_fetch_assoc($ret))
 		$name = $rows["tutorname"];
@@ -187,10 +186,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 		"
 	);
 
-
-
 	$username = $_SESSION["username"];
-
 	if(empty($username))
 	{
 		print("<script>alert('not allowed');document.location.href='../../login/index.php'</script>");
@@ -198,26 +194,23 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	}
 
 	$sql = "SELECT * FROM tutor_access_info WHERE username='".$username."'";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
 		while($rows = mysqli_fetch_assoc($results))
 		{
-			$board="<br /><br /><form class='board' action='manip.php' method='GET'>";
-			$board.="<input type='text' readonly name=form value='".$rows["form"]."'></input>";
-			$board.="<input type='text' readonly name=track value='".$rows["track"]."'></input>";
-			$board.="<input type='text' readonly name=department value='".$rows["department"]."'></input>";
-			$board.="<input type='text' readonly name=class value='".$rows["class"]."'></input>";
-			$board.="<input type='text' readonly name=subject value='".$rows["subject"]."'></input>";
-			$board.="<input type='submit'  value='select'></input></form>";
+			$board = "<br /><br /><form class='board' action='manip.php' method='GET'>";
+			$board .= "<input type='text' readonly name=form value='".$rows["form"]."'></input>";
+			$board .= "<input type='text' readonly name=track value='".$rows["track"]."'></input>";
+			$board .= "<input type='text' readonly name=department value='".$rows["department"]."'></input>";
+			$board .= "<input type='text' readonly name=class value='".$rows["class"]."'></input>";
+			$board .= "<input type='text' readonly name=subject value='".$rows["subject"]."'></input>";
+			$board .= "<input type='submit'  value='select'></input></form>";
 			print($board);
 		}
 	}
-
-
 }
-
 else
 {
 	header("location: ../../login/index.php");

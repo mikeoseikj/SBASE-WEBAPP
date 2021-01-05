@@ -36,11 +36,10 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
     include('../../../login/connection.php');
     include('../../../login/func.php');
 
-	$form = sanitize_sql_input($_POST["form_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$track = sanitize_sql_input($_POST["track_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$department = sanitize_sql_input($_POST["department_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$class = sanitize_sql_input($_POST["class_menu"],"/[^a-zA-Z0-9\-_() ]/");
-
+	$form = sanitize_sql_input($_POST["form_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$track = sanitize_sql_input($_POST["track_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$department = sanitize_sql_input($_POST["department_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$class = sanitize_sql_input($_POST["class_menu"], "/[^a-zA-Z0-9\-_() ]/");
 
 	if(empty($form) || empty($track) || empty($department) || empty($class))
 	{
@@ -50,11 +49,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 
 	$conn = sql_connect();
-
-
 	$sql = "SELECT DISTINCT username,studentname FROM student_subject_info WHERE form='".$form."' AND track='".$track."' AND department='".$department."' AND class='".$class."'";
-
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
+	
 	if(mysqli_num_rows($results) > 0)
 	{
 		print("<table width='100%'><tr><th>Name</th><th>Username</th><th>State</th></tr>");

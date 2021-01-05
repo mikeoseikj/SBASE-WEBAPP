@@ -112,7 +112,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	<marquee><h1 align='center' style='font-family: monospace;color: #88ffff;'>CONFIGURATION  PANEL</h1><marquee>    
 	";
 
-//form contains <select> to allow admin to register tutors with various fields
+	// form contains <select> to allow admin to register tutors with various fields
 	$body = "<div class='container' id='appear'>
 	<form id='update_tutor' action='update_tutor.php' class='form-box' onsubmit='return toContinue()' method='POST'>
 	<a class='cancel' onClick='closeDialog()'>&times</a>
@@ -130,8 +130,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 
 	include('../../../login/connection.php');
-	$conn = sql_connect();
-
+	$conn = sql_connect();	
 	$all_menu = "";
 
 	$menu = "";
@@ -150,27 +149,21 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		elseif($i == 4)
 			$field = "subject";
 
-
-
 		$menu = "<select name='".$field."_menu' form='update_tutor' required>";
 
-//building select menus
+		// building select menus
 		$sql = "SELECT ".$field." FROM ".$field."_info";
 		$results = mysqli_query($conn,$sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
-
 			while($row = mysqli_fetch_assoc($results))
 			{
 				$menu = $menu."<option value='".$row[$field]."'>".$row[$field]."</option>";
 			}
 			$menu = $menu."</select>";
-
-
 			$all_menu = $all_menu.$menu;
 		}
-
 
 	}//for loop
 	print($page1.$body.$all_menu.$page2);

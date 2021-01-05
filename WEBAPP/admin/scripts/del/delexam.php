@@ -7,8 +7,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	include('../../../login/connection.php');
 	include('../../../login/func.php');
 
-
-	$exam = sanitize_sql_input($_POST["exam_menu"],"/[^a-zA-Z0-9\-_() ]/");
+	$exam = sanitize_sql_input($_POST["exam_menu"], "/[^a-zA-Z0-9\-_() ]/");
 
 	if(empty($exam))
 	{
@@ -18,10 +17,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	
 	$conn = sql_connect();
-
 	$sql = "SELECT * FROM student_overrall_marks WHERE exam='".$exam."'";
+	$results = mysqli_query($conn, $sql);
 
-	$results = mysqli_query($conn,$sql);
 	if(mysqli_num_rows($results) > 0)
 	{
 

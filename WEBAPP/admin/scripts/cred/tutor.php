@@ -46,7 +46,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	$conn = sql_connect();
 
 	$sql = "SELECT * FROM tutor_login_info";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -55,7 +55,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 		while($rows = mysqli_fetch_assoc($results))
 		{
-
 			$sql = "SELECT tutorname FROM tutor_access_info WHERE username='".$rows["username"]."' LIMIT 1";
 			$ret = mysqli_query($conn,$sql);
 			while($lane = mysqli_fetch_assoc($ret))
@@ -75,7 +74,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		}
 		print("</table>");
 	}
-
 	else
 	{
 		print("<h1>NO NEWLY ADDED TUTOR</h1>");

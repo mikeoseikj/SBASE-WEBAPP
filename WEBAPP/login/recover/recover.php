@@ -12,25 +12,22 @@ if($file !== "rec.php")
 }
 
 print("<body bgcolor='#000000'></body>");
-
-
 include('../func.php');
 
-$username = sanitize_sql_input($_POST["username"],"/[^a-zA-Z0-9.]/");
-$password1 = sanitize_sql_input($_POST["password1"],"/[^a-zA-Z0-9.\-_()+*#@%$]/");
-$password2 = sanitize_sql_input($_POST["password2"],"/[^a-zA-Z0-9.\-_()+*#@%$]/");
+$username = sanitize_sql_input($_POST["username"], "/[^a-zA-Z0-9.]/");
+$password1 = sanitize_sql_input($_POST["password1"], "/[^a-zA-Z0-9.\-_()+*#@%$]/");
+$password2 = sanitize_sql_input($_POST["password2"], "/[^a-zA-Z0-9.\-_()+*#@%$]/");
 
 
-//old hints for account recovery
-$ohint1 = sanitize_sql_input($_POST["ohint1"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
-$ohint2 = sanitize_sql_input($_POST["ohint2"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
+// old hints for account recovery
+$ohint1 = sanitize_sql_input($_POST["ohint1"], "/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
+$ohint2 = sanitize_sql_input($_POST["ohint2"], "/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
 
-//hints for new password
-$hint1 = sanitize_sql_input($_POST["hint1"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
-$hint2 = sanitize_sql_input($_POST["hint2"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
+// hints for new password
+$hint1 = sanitize_sql_input($_POST["hint1"], "/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
+$hint2 = sanitize_sql_input($_POST["hint2"], "/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
 
-
-if($password1 !==$password2 || $hint1 !==$hint2 || $ohint1 !==$ohint2)
+if($password1 !== $password2 || $hint1 !== $hint2 || $ohint1 !== $ohint2)
 {
 	print("<script>alert('not allowed');document.location.href='../index.php'</script>");
 	exit;
@@ -43,9 +40,7 @@ if(empty($password1) || empty($hint1) || empty($ohint1) || empty($username))
 	exit;
 };
 
-
-
-if(strtolower($username)=="admin")
+if(strtolower($username) == "admin")
 {
 	if(strlen($password1) < 16  || strlen($ohint1) < 16  || strlen($hint1) < 16 )
 	{
@@ -53,7 +48,6 @@ if(strtolower($username)=="admin")
 		exit;
 	}
 }
-
 else
 {
 	if(strlen($password1) < 8 || strlen($ohint1) < 8 || strlen($hint1) < 8 )
@@ -63,12 +57,11 @@ else
 	}
 }
 
-$pass_hash = password_hash($password1,PASSWORD_BCRYPT);
-$hint_hash = password_hash(strtolower($hint1),PASSWORD_BCRYPT);
+$pass_hash = password_hash($password1, PASSWORD_BCRYPT);
+$hint_hash = password_hash(strtolower($hint1), PASSWORD_BCRYPT);
 
 
 $config = include('../../config.php');
-
 $conn = mysqli_connect($config->dbhost, $config->dbuser, $config->dbpass, "SBASE");
 
 if(! $conn)
@@ -82,11 +75,11 @@ sleep(3);
 
 $table;
 if(strlen($username) == 14)
-	{$table="tutor";}
+	{$table = "tutor";}
 elseif(strlen($username) == 12)
-	{$table="student";}
+	{$table = "student";}
 elseif(strtolower($username) == "admin")
-	{$table="admin";}
+	{$table = "admin";}
 else
 {
 	print("<script>alert('unknown username');document.location.href='../index.php'</script>");
@@ -95,16 +88,15 @@ else
 
 if($table == "admin")
 {
-
-	$sql="SELECT * FROM admin_slogin_info";
-	$results = mysqli_query($conn,$sql);
+	$sql = "SELECT * FROM admin_slogin_info";
+	$results = mysqli_query($conn, $sql);
 	while($rows = mysqli_fetch_assoc($results))
 		$hint = $rows["recoveryhint"];
 
 	if(password_verify($ohint1, $hint))
 	{
 		$sql = "UPDATE ".$table."_slogin_info SET password='".$pass_hash."' ,recoveryhint='".$hint_hash."'"; 
-		mysqli_query($conn,$sql);
+		mysqli_query($conn, $sql);
 	}
 	else
 	{
@@ -124,10 +116,10 @@ else
 		while($rows = mysqli_fetch_assoc($results))
 		{
 
-			if(password_verify($ohint1,$rows["recoveryhint"]))
+			if(password_verify($ohint1, $rows["recoveryhint"]))
 			{
 				$sql = "UPDATE ".$table."_slogin_info SET password='".$pass_hash."' ,recoveryhint='".$hint_hash."' WHERE username='".$username."'" ;
-				mysqli_query($conn,$sql);
+				mysqli_query($conn, $sql);
 			}
 			else
 			{

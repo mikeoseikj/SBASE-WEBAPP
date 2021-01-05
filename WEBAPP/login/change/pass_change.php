@@ -6,14 +6,14 @@ session_start();
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["loggedin"] == true)
 {
 
-//logout tutors after 1 hour
+	// logout tutors after 1 hour
 	if((time()-$_SESSION["timestamp"]) > 3600 && strlen($_SESSION["username"]) == 14)
 	{
 		print("<script>alert('session timeout');document.location.href='../logout.php'</script>");
 		exit;
 	}
 
-//logout students after 5 minutes
+	// logout students after 5 minutes
 	if((time()-$_SESSION["timestamp"]) > 300 && strlen($_SESSION["username"]) == 12)
 	{
 		print("<script>alert('session timeout');document.location.href='../logout.php'</script>");
@@ -21,20 +21,19 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	}
 
     include('../connection.php');
-    include('../func.php');
-
-
-    //to prevent sql injection
-	$opassword = sanitize_sql_input($_POST["opassword"],"/[^a-zA-Z0-9.\-_()+*#@%$]/");
-	$password1 = sanitize_sql_input($_POST["password1"],"/[^a-zA-Z0-9.\-_()+*#@%$]/");
-	$password2 = sanitize_sql_input($_POST["password2"],"/[^a-zA-Z0-9.\-_()+*#@%$]/");
+	include('../func.php');
+	
+    // to prevent sql injection
+	$opassword = sanitize_sql_input($_POST["opassword"], "/[^a-zA-Z0-9.\-_()+*#@%$]/");
+	$password1 = sanitize_sql_input($_POST["password1"], "/[^a-zA-Z0-9.\-_()+*#@%$]/");
+	$password2 = sanitize_sql_input($_POST["password2"], "/[^a-zA-Z0-9.\-_()+*#@%$]/");
 	$username = $_SESSION["username"];
 
-	$hint1 = sanitize_sql_input($_POST["hint1"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
-	$hint2 = sanitize_sql_input($_POST["hint2"],"/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
+	$hint1 = sanitize_sql_input($_POST["hint1"], "/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
+	$hint2 = sanitize_sql_input($_POST["hint2"], "/[^a-zA-Z0-9.\-_()+*#@?%$, ]/");
 
 
-	if($password1 !==$password2  || $hint1 !== $hint2)
+	if($password1 !== $password2  || $hint1 !== $hint2)
 	{
 		print("<script>alert('not allowed');document.location.href='../logout.php'</script>");
 		exit;
@@ -46,8 +45,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 		exit;
 	}
 
-//dont have to query the database for password because its already stored in the session
-	if($opassword !==$_SESSION["password"])
+  	// dont have to query the database for password because its already stored in the session
+	if($opassword !== $_SESSION["password"])
 	{
 		if(strlen($username) == 14)
 		{
@@ -65,7 +64,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	}
 
 	$conn = sql_connect();
-
 	$pass_hash = password_hash($password1,PASSWORD_BCRYPT);
 	$hint_hash = password_hash(strtolower($hint1),PASSWORD_BCRYPT);
 
@@ -79,21 +77,18 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 		}
 
 		$sql = "UPDATE admin_slogin_info SET password='".$pass_hash."' , recoveryhint='".$hint_hash."'";
-		mysqli_query($conn,$sql);
+		mysqli_query($conn, $sql);
 
 	}
 	else
 	{
-
-		$table="";
+		$table = "";
 		if(strlen($username) == 12)
-			{$table="student";}
+			{$table = "student";}
 		elseif(strlen($username) == 14)
-			{$table="tutor";}
+			{$table = "tutor";}
 
-
-
-		if(strlen($password1) < 8 || strlen($hint1) < 8 )
+		if(strlen($password1) < 8 || strlen($hint1) < 8)
 		{
 			if($table == "tutor")
 			{
@@ -116,8 +111,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["lo
 	}
 
 }
-
-
 else
 {
 	header("location: ../index.php");

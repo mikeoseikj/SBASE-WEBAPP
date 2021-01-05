@@ -7,28 +7,23 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	include('../../../login/connection.php');
 	include('../../../login/func.php');
 
-	$form = sanitize_sql_input($_POST["form_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$track = sanitize_sql_input($_POST["track_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$department = sanitize_sql_input($_POST["department_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$class = sanitize_sql_input($_POST["class_menu"],"/[^a-zA-Z0-9\-_() ]/");
-	$subject = sanitize_sql_input($_POST["subject_menu"],"/[^a-zA-Z0-9\-_() ]/");
+	$form = sanitize_sql_input($_POST["form_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$track = sanitize_sql_input($_POST["track_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$department = sanitize_sql_input($_POST["department_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$class = sanitize_sql_input($_POST["class_menu"], "/[^a-zA-Z0-9\-_() ]/");
+	$subject = sanitize_sql_input($_POST["subject_menu"], "/[^a-zA-Z0-9\-_() ]/");
 
-	$username = sanitize_sql_input($_POST["username"],"/[^a-zA-Z0-9.]/");
+	$username = sanitize_sql_input($_POST["username"], "/[^a-zA-Z0-9.]/");
 	$status = $_POST["status"];
 
-	
-	
 
 	if(empty($form) || empty($track) || empty($department) || empty($class) || empty($subject) ||   empty($status) )
 	{
 		print("<script>alert('An empty field was provided');</script>");
 		exit;
 	}
-
 	
 	$conn = sql_connect();
-
-
 	if($status == "active")
 		$state = 1;
 	else if($status == "inactive")
@@ -39,13 +34,10 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		exit;
 	}
 
-
 	if(empty($username))
 	{
-
 		$sql = "SELECT * FROM student_subject_info  WHERE form='".$form."' AND track='".$track."' AND  department='".$department."' AND class='".$class."' AND subject='".$subject."'";
-
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 		if(mysqli_num_rows($results) < 1)
 		{
 			print("<script>alert('no students with such info');</script>");
@@ -65,22 +57,19 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	else
 	{
 		$sql = "SELECT * FROM student_subject_info WHERE username='".$username."'";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 		if(mysqli_num_rows($results) < 1 )
 		{
 			print("<script>alert('username does not exist');</script>");
 			exit;
 		}
 
-
 		$sql = "UPDATE student_login_info SET status='".$state."' WHERE username='".$username."'";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 		$sql = "UPDATE student_slogin_info SET status='".$state."' WHERE username='".$username."'";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 	}
-
-
 }
 else
 {

@@ -72,7 +72,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	if(mysqli_num_rows($results) > 0)
 	{
 		print("<h2 align='center'>FORMS IN DATABASE</h1>");
-		while($row=mysqli_fetch_assoc($results))
+		while($row = mysqli_fetch_assoc($results))
 		{
 			if(! empty($row["form"]))
 			{
@@ -91,7 +91,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	if(mysqli_num_rows($results) > 0)
 	{
 		print("<h2 align='center'>TRACKS IN DATABASE</h2>");
-		while($row=mysqli_fetch_assoc($results))
+		while($row = mysqli_fetch_assoc($results))
 		{
 			if(! empty($row["track"]))
 			{
@@ -122,9 +122,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 
 
-//reading all classes from database
+	// reading all classes from database
 	$sql = "SELECT class FROM class_info";
-
 	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
@@ -144,10 +143,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 
 
-
-//reading all subjects from database
+	// reading all subjects from database
 	$sql = "SELECT subject FROM subject_info";
-
 	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)
@@ -168,9 +165,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 
 
-//reading all exams from database
+	//	reading all exams from database
 	$sql = "SELECT exam FROM exam_info";
-
 	$results = mysqli_query($conn,$sql);
 
 	if(mysqli_num_rows($results) > 0)

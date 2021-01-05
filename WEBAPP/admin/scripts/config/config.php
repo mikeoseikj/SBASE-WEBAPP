@@ -5,15 +5,14 @@ print("<body bgcolor='#000000'></body>");
 if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"]== true)
 {
 
-
 	if(isset($_POST["submit"]))
 	{
 		include('../../../login/connection.php');
 		include('../../../login/func.php');
 
 
-		$input="";
-		$field="";
+		$input = "";
+		$field = "";
 		if(isset($_POST["FORM"]))
 			{$input = $_POST["FORM"]; $field = "form";}
 
@@ -30,9 +29,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		elseif(isset($_POST["SUBJECT"]))
 			{$input = $_POST["SUBJECT"]; $field = "subject";}
 
-		$string = sanitize_sql_input($input,"/[^a-zA-Z0-9\-_() ]/");
+		$string = sanitize_sql_input($input, "/[^a-zA-Z0-9\-_() ]/");
 		
-
 
 		if(empty($string))
 		{
@@ -41,9 +39,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		}
 
 		
-		$conn=sql_connect();
+		$conn = sql_connect();
 
-//ensuring that one field is not added twice
+		// ensuring that one field is not added twice
 		$sql = "";
 		$tab = "";
 		if($field == "form")
@@ -91,7 +89,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 		header("location: ../../control_panel.php");
 	}
-
 	else
 	{
 		print("<script>alert('not allowed');document.location.href='../../control_panel.php'</script>");

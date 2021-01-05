@@ -13,28 +13,28 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	if($_POST["form_menu"])
 	{
 		$field = "form";
-		$value = sanitize_sql_input($_POST["form_menu"],"/[^a-zA-Z0-9\-_() ]/");
+		$value = sanitize_sql_input($_POST["form_menu"], "/[^a-zA-Z0-9\-_() ]/");
 		
 	}
 	elseif($_POST["track_menu"])
 	{
 		$field = "track";
-		$value = sanitize_sql_input($_POST["track_menu"],"/[^a-zA-Z0-9\-_() ]/");
+		$value = sanitize_sql_input($_POST["track_menu"], "/[^a-zA-Z0-9\-_() ]/");
 	}
 	elseif($_POST["department_menu"])
 	{
 		$field = "department";
-		$value = sanitize_sql_input($_POST["department_menu"],"/[^a-zA-Z0-9\-_() ]/");
+		$value = sanitize_sql_input($_POST["department_menu"], "/[^a-zA-Z0-9\-_() ]/");
 	}
 	elseif($_POST["class_menu"])
 	{
 		$field = "class";
-		$value = sanitize_sql_input($_POST["class_menu"],"/[^a-zA-Z0-9\-_() ]/");
+		$value = sanitize_sql_input($_POST["class_menu"], "/[^a-zA-Z0-9\-_() ]/");
 	}
 	elseif($_POST["subject_menu"])
 	{
 		$field="subject";
-		$value = sanitize_sql_input($_POST["subject_menu"],"/[^a-zA-Z0-9\-_() ]/");
+		$value = sanitize_sql_input($_POST["subject_menu"], "/[^a-zA-Z0-9\-_() ]/");
 	}
 
 	$x = $_POST["user"];
@@ -58,13 +58,12 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			{
 				$username = $row["username"];
 				$sql = "DELETE FROM tutor_access_info WHERE username='".$username."'";
-				mysqli_query($conn,$sql);
+				mysqli_query($conn, $sql);
 				$sql = "DELETE FROM tutor_login_info WHERE username='".$username."'";
-				mysqli_query($conn,$sql);
+				mysqli_query($conn, $sql);
 
 				$sql = "DELETE FROM tutor_slogin_info WHERE username='".$username."'";
-				mysqli_query($conn,$sql);
-
+				mysqli_query($conn, $sql);
 
 			}
 		}
@@ -76,14 +75,13 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 
 	}//check tutor
-
 	elseif($x == "student")
 	{
 		if($field == "subject")
 			$field.="name";
 
 		$sql = "SELECT username FROM student_subject_info WHERE ".$field."='".$value."'";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
@@ -91,25 +89,23 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			{
 				$username = $row["username"];
 				$sql = "DELETE FROM student_subject_info WHERE username='".$username."'";
-				mysqli_query($conn,$sql);
+				mysqli_query($conn, $sql);
 				$sql = "DELETE FROM student_login_info WHERE username='".$username."'";
-				mysqli_query($conn,$sql);
+				mysqli_query($conn, $sql);
 				$sql = "DELETE FROM student_slogin_info WHERE username='".$username."'";
-				mysqli_query($conn,$sql);
+				mysqli_query($conn, $sql);
 				$sql = "DELETE FROM student_results WHERE username='".$username."'";
-				mysqli_query($conn,$sql);
+				mysqli_query($conn, $sql);
 				$sql = "DELETE FROM student_overrall_marks WHERE username='".$username."'";
-				mysqli_query($conn,$sql);
+				mysqli_query($conn, $sql);
 
 			}
 		}
-
 		else
 		{
 			print("<script>alert('No student with such information');</script>");
 			exit;
 		}
-
 
 	}//check student
 
