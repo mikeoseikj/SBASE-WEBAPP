@@ -13,7 +13,7 @@
 NOTE: Software is for educational purposes and so i don't recommend it for real life deployment without some modifications due to security problems. 
 No 'third party' dependencies! Built to be compatible on systems with low specs.
 
- I am not that knowledgeable with mobile application and web application developement and this is also my first try in these areas so portions of my code and methods might look unprofessional or inefficient. I am open for constructive criticisms and advice. Free to use the project (for non commercial purposes only).
+ I am a beginner and this is my first try at these areas so portions of my code and methods might look unprofessional or inefficient. I am open for constructive criticisms and advice. Free to use the project (for non commercial purposes only).
 
 Note: Both tutors and students are classified as users
 Check the SBASE-CLIENT repository for the student client app 
