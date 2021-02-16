@@ -42,7 +42,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	if(! empty($username))
 	{
 		$sql = "SELECT username FROM student_subject_info;";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 		if(mysqli_num_rows($results) < 1)
 		{
@@ -62,7 +62,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
    	// if a group/single student exists with the same new information you provided
 	$sql = "SELECT * FROM student_subject_info WHERE form='".$form_new."' AND track='".$track_new."' AND department='".$department_new."' AND class='".$class_new."'";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 	if(mysqli_num_rows($results) > 0)
 	{
 		$post_data = "form_old=".$form_old."&track_old=".$track_old."&department_old=".$department_old."&class_old=".$class_old."&";
@@ -119,7 +119,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			for($i = 0; $i < $count; $i++)
 			{
 				$sql = "INSERT INTO student_subject_info(subjectname,studentname,username,form,track,department,class) VALUES('".$subjects[$i]."','".$name."','".$username."','".$form_new."','".$track_new."','".$department_new."','".$class_new."')";
-				mysqli_query($conn,$sql);
+				mysqli_query($conn, $sql);
 			}
 		}
 

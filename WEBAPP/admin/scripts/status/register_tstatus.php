@@ -39,7 +39,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 		$sql = "SELECT * FROM tutor_access_info  WHERE form='".$form."' AND track='".$track."' AND  department='".$department."' AND class='".$class."' AND subject='".$subject."'";
 
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 		if(mysqli_num_rows($results) < 1)
 		{
 			print("<script>alert('no tutors with such info');</script>");

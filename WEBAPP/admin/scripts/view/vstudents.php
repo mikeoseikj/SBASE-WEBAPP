@@ -61,7 +61,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			print("<td><button>".$rows["username"]."</button></td>");
 
 			$sql = "SELECT * FROM student_slogin_info WHERE username='".$rows["username"]."'";
-			$ret = mysqli_query($conn,$sql);
+			$ret = mysqli_query($conn, $sql);
 
 			if(mysqli_num_rows($ret) < 1)
 				print("<td><button style='background-color:#0000ff;'>unaccessed</button></td></tr><br />");

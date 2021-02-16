@@ -125,7 +125,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	$menu2 = "<label style='color: #55ffff';> [UPDATE DATA]: </label>";
 
 	$field = "";
-	for($i=0; $i<5; $i++)
+	for($i = 0; $i < 5; $i++)
 	{
 
 		if($i == 0)
@@ -152,7 +152,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 		// building select menus
 		$sql = "SELECT ".$field." FROM ".$field."_info";
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{

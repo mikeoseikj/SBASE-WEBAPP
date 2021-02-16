@@ -58,7 +58,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	}
 
 
-	for($i = 0;$i < count($table); $i++)
+	for($i = 0; $i < count($table); $i++)
 	{
 		$sql = "DELETE FROM ".$table[$i]." WHERE username='".$username."'";
 		mysqli_query($conn, $sql);

@@ -16,7 +16,6 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		if(isset($_POST["FORM"]))
 			{$input = $_POST["FORM"]; $field = "form";}
 
-
 		elseif(isset($_POST["TRACK"]))
 			{$input = $_POST["TRACK"]; $field = "track";}
 
@@ -70,7 +69,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 			$sql = "SELECT ".$field." FROM subject_info";
 		}
 
-		$results = mysqli_query($conn,$sql);
+		$results = mysqli_query($conn, $sql);
 
 		if(mysqli_num_rows($results) > 0)
 		{
@@ -85,7 +84,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		}
 
 		$sql = "INSERT INTO ".$tab."(".$field.")VALUES ('".$string."')";
-		mysqli_query($conn,$sql);
+		mysqli_query($conn, $sql);
 
 		header("location: ../../control_panel.php");
 	}

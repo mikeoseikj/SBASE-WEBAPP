@@ -47,9 +47,9 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		while($rows = mysqli_fetch_assoc($results))
 		{
 			$sql = "UPDATE student_login_info SET status='".$state."' WHERE username='".$rows["username"]."'";
-			mysqli_query($conn,$sql);
+			mysqli_query($conn, $sql);
 			$sql = "UPDATE student_slogin_info SET status='".$state."' WHERE username='".$rows["username"]."'";
-			mysqli_query($conn,$sql);
+			mysqli_query($conn, $sql);
 		}
 
 	}

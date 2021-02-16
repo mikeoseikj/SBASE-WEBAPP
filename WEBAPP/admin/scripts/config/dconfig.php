@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] ==true)
+if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["superuser"] == true &&  $_SESSION["loggedin"] == true)
 {
 
 	print("<style type='text/css'>
@@ -67,7 +67,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	$sql = "SELECT form FROM form_info";
 
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -86,7 +86,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	$sql = "SELECT track FROM track_info";
 
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -104,7 +104,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
   
 	$sql = "SELECT department FROM department_info";
 
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -124,7 +124,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	// reading all classes from database
 	$sql = "SELECT class FROM class_info";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -145,7 +145,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	// reading all subjects from database
 	$sql = "SELECT subject FROM subject_info";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
@@ -167,7 +167,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	//	reading all exams from database
 	$sql = "SELECT exam FROM exam_info";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{

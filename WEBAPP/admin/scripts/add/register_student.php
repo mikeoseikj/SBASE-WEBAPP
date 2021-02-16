@@ -76,12 +76,12 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		{
 			$username = generate_random_student_username();
 			$sql = "SELECT * FROM student_login_info WHERE username='".$username."'";
-			$results = mysqli_query($conn,$sql);
+			$results = mysqli_query($conn, $sql);
 
 			if(mysqli_num_rows($results) < 1)
 			{
 				$sql = "SELECT * FROM student_slogin_info WHERE username='".$username."'";
-				$results = mysqli_query($conn,$sql);
+				$results = mysqli_query($conn, $sql);
 			}
 
 		}while(mysqli_num_rows($results) > 0);
@@ -97,7 +97,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		for($j=0; $j < count($subjects); $j++)
 		{
 			$sql = "INSERT INTO student_subject_info(subjectname,studentname,username,form,track,department,class) VALUES('".$subjects[$j]."','".$name_list[$i]."','".$username_buffer[$i]."','".$form."','".$track."','".$department."','".$class."')";
-			mysqli_query($conn,$sql);
+			mysqli_query($conn, $sql);
 		}
 
 	}

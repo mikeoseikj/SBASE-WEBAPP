@@ -133,7 +133,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 
 	$menu = "";
 	$field = "";
-	for($i=0; $i<5; $i++)
+	for($i = 0; $i < 5; $i++)
 	{
 
 		if($i == 0)

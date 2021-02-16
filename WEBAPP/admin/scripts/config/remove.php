@@ -66,7 +66,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	$conn = sql_connect();
 
 	$sql = "DELETE FROM ".$tab." WHERE ".$field."='".$value."';";
-    mysqli_query($conn,$sql);
+    mysqli_query($conn, $sql);
 	print("<script>document.location.href='dconfig.php';</script>");
 
 }

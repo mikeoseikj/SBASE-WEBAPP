@@ -56,7 +56,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		while($rows = mysqli_fetch_assoc($results))
 		{
 			$sql = "SELECT tutorname FROM tutor_access_info WHERE username='".$rows["username"]."' LIMIT 1";
-			$ret = mysqli_query($conn,$sql);
+			$ret = mysqli_query($conn, $sql);
 			while($lane = mysqli_fetch_assoc($ret))
 				$name = $lane["tutorname"];
 

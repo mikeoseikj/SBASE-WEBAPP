@@ -27,13 +27,13 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		{
 			$username = $rows["username"];
 			$sql = "DELETE FROM student_login_info WHERE username='".$username."'";
-			mysqli_query($conn,$sql);
+			mysqli_query($conn, $sql);
 			$sql = "DELETE FROM student_subject_info WHERE username='".$username."'";
-			mysqli_query($conn,$sql);
+			mysqli_query($conn, $sql);
 			$sql = "DELETE FROM student_results WHERE username='".$username."'";
-			mysqli_query($conn,$sql);
+			mysqli_query($conn, $sql);
 			$sql = "DELETE FROM student_overrall_marks WHERE username='".$username."'";
-			mysqli_query($conn,$sql);
+			mysqli_query($conn, $sql);
 		}
 	}
 

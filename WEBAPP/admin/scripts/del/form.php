@@ -126,7 +126,7 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 	$menu = "<select name='form_menu' form='del' required>";
 
 	$sql = "SELECT form FROM form_info";
-	$results = mysqli_query($conn,$sql);
+	$results = mysqli_query($conn, $sql);
 
 	if(mysqli_num_rows($results) > 0)
 	{
