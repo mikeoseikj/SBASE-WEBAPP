@@ -141,7 +141,7 @@ Didn't do this for "login" tables because they are required for first time login
 -password bruteforce is partially impractical because there is a 3 seconds delay in the login section.
 
 PROBLEMS:
-Datebase structure is clumsy and inefficient
+Database structure and design is in someway clumsy and inefficient
 Note: password can be bruteforced with large number of resources and time
 
 
