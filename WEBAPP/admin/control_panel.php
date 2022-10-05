@@ -192,8 +192,8 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<div class='dropdown-content'>
 		<a href='scripts/update/tutor.php'   target='frame' target='frame'>Tutor</a>
 		<a href='scripts/update/student.php' target='frame'>Students</a>
-		<a href='scripts/status/tstatus.php' target='frame'>Tutor *ctivation</a>
-		<a href='scripts/status/sstatus.php' target='frame'>Student *ctivation</a>
+		<a href='scripts/status/tstatus.php' target='frame'>Tutor de/activation</a>
+		<a href='scripts/status/sstatus.php' target='frame'>Student de/activation</a>
 		<a></a>
 		<a href='scripts/update/name.php' target='frame'>Change Name of User</a>
 		</div>
@@ -206,10 +206,10 @@ if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["su
 		<div class='dropdown-content'>
 		<a href='scripts/cred/tutor.php'   target='frame' target='frame'>View Tutors Creds</a>
 		<a href='scripts/cred/stud.php' target='frame'>View Students Creds</a>
-		<a href='scripts/cred/*lock.php?cmd=tlock' target='frame'>Block all Tutors</a>
-		<a href='scripts/cred/*lock.php?cmd=tunlock' target='frame'>Unblock all Tutors</a>
-		<a href='scripts/cred/*lock.php?cmd=slock' target='frame'>Block all Students</a>
-		<a href='scripts/cred/*lock.php?cmd=sunlock' target='frame'>Unblock all Students</a>
+		<a href='scripts/cred/lock.php?cmd=tlock' target='frame'>Block all Tutors</a>
+		<a href='scripts/cred/lock.php?cmd=tunlock' target='frame'>Unblock all Tutors</a>
+		<a href='scripts/cred/lock.php?cmd=slock' target='frame'>Block all Students</a>
+		<a href='scripts/cred/lock.php?cmd=sunlock' target='frame'>Unblock all Students</a>
 
 		</div>
 		</div>
